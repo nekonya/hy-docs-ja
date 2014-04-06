@@ -1,4 +1,4 @@
-Hyのドキュメントにようこそ！
+Hyのドキュメントにようこそ
 ==============================
 
 .. image:: _static/hy-logo-small.png
@@ -15,14 +15,13 @@ Hyのドキュメントにようこそ！
         :alt: Travis CI
         :target: http://travis-ci.org/hylang/hy
 
-Hy is a wonderful dialect of Lisp that's embedded in Python.
+HyはPythonに組み込まれた，Lispの素敵な方言です．
 
-Since Hy transforms its Lisp code into the Python Abstract Syntax
-Tree, you have the whole beautiful world of Python at your fingertips,
-in Lisp form!
+HyがLispコードをPythonの抽象構文木に変換することにより，あなたの精通しているPythonに
+関する全ての知識をLispのやり方で利用することができます．
 
 
-Documentation Index
+目次
 ===================
 
 Contents:
