@@ -17,8 +17,7 @@ Hyのドキュメントにようこそ
 
 HyはPythonに組み込まれた，Lispの素敵な方言です．
 
-HyがLispコードをPythonの抽象構文木に変換することにより，あなたの精通しているPythonに
-関する全ての知識をLispのやり方で利用することができます．
+HyがLispコードをPythonの抽象構文木に変換することにより，あなたの精通しているPythonに関する全ての知識をLispのやり方で利用することができます．
 
 
 目次
@@ -29,7 +28,7 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   quickstart
+   quickstart-ja
    tutorial
    language/index
    contrib/index
