@@ -8,36 +8,36 @@ Quickstart
 (Thanks to Karen Rustad for Cuddles!)
 
 
-**手っ取り早くHyが使えるようになる方法**:
+**手っ取り早くHy環境を取得する方法**:
 
-1. `Virtual Python Environment
-   <https://pypi.python.org/pypi/virtualenv>`_\ を作る
-2. Activate your Virtual Python Environment
-3. Install `hy from PyPI <https://pypi.python.org/pypi/hy>`_ with ``pip install hy``
-4. Start a REPL with ``hy``
-5. Type stuff in the REPL::
+1. `Python仮想環境
+   <https://pypi.python.org/pypi/virtualenv>`_\ を作ませう
+2. Python仮想環境を実行しませう
+3. コンソールで``pip install hy``と入力することで`PyPI <https://pypi.python.org/pypi/hy>`_\ によるHyのインストールをするです
+4. コンソールで``hy``を入力することでREPLを起動するです
+5. REPLのプロンプトで以下のように入力しませう::
 
        => (print "Hy!")
        Hy!
        => (defn salutationsnm [name] (print (+ "Hy " name "!")))
-       => (salutationsnm "YourName")
-       Hy YourName!
+       => (salutationsnm "おまいら")
+       Hy おまいら!
 
-       etc
+       などなど
 
-6. Hit CTRL-D when you're done
+6. REPLを終了するならばCTRL-Dを入力するです
 
-OMG! That's amazing! I want to write a hy program.
+すんばらしい！Hy環境が手に入っちゃったですよ！それじゃあイッチョHyのプログラムを書こうジャマイカ！
 
-7. Open up an elite programming editor and type::
+7. プログラミング用のエディタを開いて以下を入力するです::
 
        (print "I was going to code in python syntax, but then I got hy.")
 
-8. Save as ``awesome.hy``
-9. And run your first Hy program::
+8. ``awesome.hy``\ と保存します
+9. そして，あなたの最初のHyプログラムを実行するです::
 
         hy awesome.hy
 
-10. Take a deep breath so as to not hyperventilate
-11. Smile villainously and sneak off to your hydeaway and do
-    unspeakable things
+10. 過呼吸を起こさないように深く呼吸をしませう
+
+11. 悪人のような笑みを浮かべて秘密の隠れ家にこそこそと引きこもり（初めから引きこもってるならそのままでOK），ここじゃ口にできないようなあんなことこんなことをやらかしちゃいませう！（ママンに怒られないようにな！）

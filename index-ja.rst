@@ -29,7 +29,7 @@ Contents:
    :maxdepth: 3
 
    quickstart-ja
-   tutorial
+   tutorial-ja
    language/index
    contrib/index
    hacking
