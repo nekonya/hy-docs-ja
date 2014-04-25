@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>defmulti &mdash; hy 0.9.12 documentation</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.9.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="hy 0.9.12 documentation" href="../index.html" />
+    <link rel="up" title="Contrib Modules Index" href="index.html" />
+    <link rel="next" title="Hacking on hy" href="../hacking.html" />
+    <link rel="prev" title="loop/recur" href="loop.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../hacking.html" title="Hacking on hy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="loop.html" title="loop/recur"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hy 0.9.12 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Contrib Modules Index</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="defmulti">
+<h1>defmulti<a class="headerlink" href="#defmulti" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p><cite>defmulti</cite> lets you arity-overload a function by the given number of
+args and/or kwargs. Inspired by clojures take on <cite>defn</cite>.</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="nv">hy.contrib.multi</span><span class="p">)</span>
+<span class="nv">=&gt;</span>   <span class="p">(</span><span class="kd">defmulti </span><span class="nv">fun</span>
+<span class="nv">...</span>     <span class="p">([</span><span class="nv">a</span><span class="p">]</span> <span class="nv">a</span><span class="p">)</span>
+<span class="nv">...</span>     <span class="p">([</span><span class="nv">a</span> <span class="nv">b</span><span class="p">]</span> <span class="s">&quot;a b&quot;</span><span class="p">)</span>
+<span class="nv">...</span>     <span class="p">([</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">]</span> <span class="s">&quot;a b c&quot;</span><span class="p">))</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">fun</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="ss">&#39;a</span> <span class="nv">b</span> <span class="nv">c</span><span class="o">&#39;</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">fun</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">)</span>
+<span class="s">&quot;a b&quot;</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">fun</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="loop.html"
+                        title="previous chapter">loop/recur</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../hacking.html"
+                        title="next chapter">Hacking on hy</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/contrib/multi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../hacking.html" title="Hacking on hy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="loop.html" title="loop/recur"
+             >previous</a> |</li>
+        <li><a href="../index.html">hy 0.9.12 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Contrib Modules Index</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

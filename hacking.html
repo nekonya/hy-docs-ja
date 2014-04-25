@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hacking on hy &mdash; hy 0.9.12 documentation</title>
+    
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="hy 0.9.12 documentation" href="index.html" />
+    <link rel="prev" title="defmulti" href="contrib/multi.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="contrib/multi.html" title="defmulti"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">hy 0.9.12 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hacking-on-hy">
+<h1>Hacking on hy<a class="headerlink" href="#hacking-on-hy" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="join-our-hyve">
+<h2>Join our hyve!<a class="headerlink" href="#join-our-hyve" title="Permalink to this headline">¶</a></h2>
+<p>Please come hack on hy!</p>
+<p>Please come hang out with us on <tt class="docutils literal"><span class="pre">#hy</span></tt> on <tt class="docutils literal"><span class="pre">irc.freenode.net</span></tt>!</p>
+<p>Please talk about it on Twitter with the <tt class="docutils literal"><span class="pre">#hy</span></tt> hashtag!</p>
+<p>Please blog about it!</p>
+<p>Please don&#8217;t spraypaint it on your neighbor&#8217;s fence (without asking nicely)!</p>
+</div>
+<div class="section" id="hack">
+<h2>Hack!<a class="headerlink" href="#hack" title="Permalink to this headline">¶</a></h2>
+<p>Do this:</p>
+<ol class="arabic">
+<li><p class="first">create a <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtual environment</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>virtualenv venv
+</pre></div>
+</div>
+<p>and activate it:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>. venv/bin/activate
+</pre></div>
+</div>
+<p>or use <a class="reference external" href="http://virtualenvwrapper.readthedocs.org/en/latest/#introduction">virtualenvwrapper</a>
+to create and manage your virtual environment:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mkvirtualenv hy
+<span class="nv">$ </span>workon hy
+</pre></div>
+</div>
+</li>
+<li><p class="first">get the source code:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone https://github.com/hylang/hy.git
+</pre></div>
+</div>
+<p>or use your fork:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git clone git@github.com:&lt;YOUR_USERNAME&gt;/hy.git
+</pre></div>
+</div>
+</li>
+<li><p class="first">install for hacking:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>hy/
+<span class="nv">$ </span>pip install -e .
+</pre></div>
+</div>
+</li>
+<li><p class="first">install other develop-y requirements:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install -r requirements-dev.txt
+</pre></div>
+</div>
+</li>
+<li><p class="first">do awesome things; make someone shriek in delight/disgust at what
+you have wrought.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="test">
+<h2>Test!<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+<p>Tests are located in <tt class="docutils literal"><span class="pre">tests/</span></tt>. We use <a class="reference external" href="https://nose.readthedocs.org/en/latest/">nose</a>.</p>
+<p>To run the tests:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>nosetests
+</pre></div>
+</div>
+<p>Write tests&#8212;tests are good!</p>
+<p>Also, it is good to run the tests for all the platforms supported and for pep8 compliant code.
+You can do so by running tox:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>tox
+</pre></div>
+</div>
+</div>
+<div class="section" id="document">
+<h2>Document!<a class="headerlink" href="#document" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is located in <tt class="docutils literal"><span class="pre">docs/</span></tt>. We use <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>.</p>
+<p>To build the docs in HTML:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>docs
+<span class="nv">$ </span>make html
+</pre></div>
+</div>
+<p>Write docs&#8212;docs are good! Even this doc!</p>
+</div>
+<div class="section" id="core-development-rules">
+<h2>Core Development Rules<a class="headerlink" href="#core-development-rules" title="Permalink to this headline">¶</a></h2>
+<p>All incoming changes need to be acked by 2 different members of Hylang&#8217;s
+core team. Additional review is clearly welcome, but we need a minimum of
+2 signoffs for any change.</p>
+<p>If a core member is sending in a PR, please find 2 core members that don&#8217;t
+include the PR submitter. The idea here is that one can work with the PR
+author, and a second acks the entire change set.</p>
+<p>If the change is adding documentation, feel free to just merge after one
+ACK. We&#8217;ve got low coverage, so it&#8217;d be great to keep that barrier low.</p>
+</div>
+<div class="section" id="core-team">
+<h2>Core Team<a class="headerlink" href="#core-team" title="Permalink to this headline">¶</a></h2>
+<p>Core development team of hy consists of following developers.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jd">Julien Danjou</a></li>
+<li><a class="reference external" href="https://github.com/Foxboron">Morten Linderud</a></li>
+<li><a class="reference external" href="https://github.com/agentultra">J Kenneth King</a></li>
+<li><a class="reference external" href="https://github.com/algernon">Gergely Nagy</a></li>
+<li><a class="reference external" href="https://github.com/tuturto">Tuukka Turto</a></li>
+<li><a class="reference external" href="https://github.com/aldeka">Karen Rustad</a></li>
+<li><a class="reference external" href="https://github.com/theanalyst">Abhishek L</a></li>
+<li><a class="reference external" href="https://github.com/cwebber">Christopher Allan Webber</a></li>
+<li><a class="reference external" href="https://github.com/khinsen">Konrad Hinsen</a></li>
+<li><a class="reference external" href="https://github.com/willkg">Will Kahn-Greene</a></li>
+<li><a class="reference external" href="https://github.com/paultag">Paul Tagliamonte</a></li>
+<li><a class="reference external" href="https://github.com/olasd">Nicolas Dandrimont</a></li>
+<li><a class="reference external" href="https://github.com/rwtolbert">Bob Tolbert</a></li>
+<li><a class="reference external" href="https://github.com/berkerpeksag">Berker Peksag</a></li>
+<li><a class="reference external" href="https://github.com/cndreisbach">Clinton N. Dreisbach</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Hacking on hy</a><ul>
+<li><a class="reference internal" href="#join-our-hyve">Join our hyve!</a></li>
+<li><a class="reference internal" href="#hack">Hack!</a></li>
+<li><a class="reference internal" href="#test">Test!</a></li>
+<li><a class="reference internal" href="#document">Document!</a></li>
+<li><a class="reference internal" href="#core-development-rules">Core Development Rules</a></li>
+<li><a class="reference internal" href="#core-team">Core Team</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="contrib/multi.html"
+                        title="previous chapter">defmulti</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/hacking.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="contrib/multi.html" title="defmulti"
+             >previous</a> |</li>
+        <li><a href="index.html">hy 0.9.12 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
