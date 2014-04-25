@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Anaphoric Macros &mdash; hy 0.9.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.9.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="hy 0.9.12 documentation" href="../index.html" />
+    <link rel="up" title="Contrib Modules Index" href="index.html" />
+    <link rel="next" title="loop/recur" href="loop.html" />
+    <link rel="prev" title="Contrib Modules Index" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="loop.html" title="loop/recur"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Contrib Modules Index"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hy 0.9.12 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Contrib Modules Index</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="anaphoric-macros">
+<h1>Anaphoric Macros<a class="headerlink" href="#anaphoric-macros" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.12.</span></p>
+</div>
+<p>The anaphoric macros module makes functional programming in Hy very
+concise and easy to read.</p>
+<blockquote>
+<div><p>An anaphoric macro is a type of programming macro that
+deliberately captures some form supplied to the macro which may be
+referred to by an anaphor (an expression referring to another).</p>
+<p class="attribution">&mdash;Wikipedia (<a class="reference external" href="http://en.wikipedia.org/wiki/Anaphoric_macro">http://en.wikipedia.org/wiki/Anaphoric_macro</a>)</p>
+</div></blockquote>
+<div class="section" id="macros">
+<h2>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ap-if">
+<span id="id1"></span><h3>ap-if<a class="headerlink" href="#ap-if" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-if</span> <span class="pre">(foo)</span> <span class="pre">(print</span> <span class="pre">it))</span></tt></p>
+<p>Evaluate the first form for trutheyness, and bind it to <tt class="docutils literal"><span class="pre">it</span></tt> in both the
+true and false branch.</p>
+</div>
+<div class="section" id="ap-each">
+<span id="id2"></span><h3>ap-each<a class="headerlink" href="#ap-each" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-each</span> <span class="pre">[1</span> <span class="pre">2</span> <span class="pre">3</span> <span class="pre">4</span> <span class="pre">5]</span> <span class="pre">(print</span> <span class="pre">it))</span></tt></p>
+<p>Evaluate the form for each element in the list for side-effects.</p>
+</div>
+</div>
+<div class="section" id="ap-each-while">
+<span id="id3"></span><h2>ap-each-while<a class="headerlink" href="#ap-each-while" title="Permalink to this headline">¶</a></h2>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-each-while</span> <span class="pre">list</span> <span class="pre">pred</span> <span class="pre">body)</span></tt></p>
+<p>Evaluate the form for each element where the predicate form returns
+True.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">each</span><span class="o">-</span><span class="k">while</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="o">]</span> <span class="o">(&lt;</span> <span class="n">it</span> <span class="mi">4</span><span class="o">)</span> <span class="o">(</span><span class="nb">print</span> <span class="n">it</span><span class="o">))</span>
+<span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-map">
+<span id="id4"></span><h2>ap-map<a class="headerlink" href="#ap-map" title="Permalink to this headline">¶</a></h2>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-map</span> <span class="pre">form</span> <span class="pre">list)</span></tt></p>
+<p>The anaphoric form of map works just like regular map except that
+instead of a function object it takes a Hy form. The special name,
+<tt class="docutils literal"><span class="pre">it</span></tt> is bound to the current object from the list in the iteration.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">map</span> <span class="o">(*</span> <span class="n">it</span> <span class="mi">2</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">6</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-map-when">
+<span id="id5"></span><h2>ap-map-when<a class="headerlink" href="#ap-map-when" title="Permalink to this headline">¶</a></h2>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-map-when</span> <span class="pre">predfn</span> <span class="pre">rep</span> <span class="pre">list)</span></tt></p>
+<p>Evaluate a mapping over the list using a predicate function to
+determin when to apply the form.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">map</span><span class="o">-</span><span class="n">when</span> <span class="n">odd</span><span class="o">?</span> <span class="o">(*</span> <span class="n">it</span> <span class="mi">2</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">4</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">map</span><span class="o">-</span><span class="n">when</span> <span class="n">even</span><span class="o">?</span> <span class="o">(*</span> <span class="n">it</span> <span class="mi">2</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">8</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-filter">
+<span id="id6"></span><h2>ap-filter<a class="headerlink" href="#ap-filter" title="Permalink to this headline">¶</a></h2>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-filter</span> <span class="pre">form</span> <span class="pre">list)</span></tt></p>
+<p>As with <tt class="docutils literal"><span class="pre">ap-map</span></tt> we take a special form instead of a function to
+filter the elements of the list. The special name <tt class="docutils literal"><span class="pre">it</span></tt> is bound to
+the current element in the iteration.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">filter</span> <span class="o">(&gt;</span> <span class="o">(*</span> <span class="n">it</span> <span class="mi">2</span><span class="o">)</span> <span class="mi">6</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-reject">
+<span id="id7"></span><h2>ap-reject<a class="headerlink" href="#ap-reject" title="Permalink to this headline">¶</a></h2>
+<p>Usage: <tt class="docutils literal"><span class="pre">(ap-reject</span> <span class="pre">form</span> <span class="pre">list)</span></tt></p>
+<p>This function does the opposite of <tt class="docutils literal"><span class="pre">ap-filter</span></tt>, it rejects the
+elements passing the predicate . The special name <tt class="docutils literal"><span class="pre">it</span></tt> is bound to
+the current element in the iteration.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">reject</span> <span class="o">(&gt;</span> <span class="o">(*</span> <span class="n">it</span> <span class="mi">2</span><span class="o">)</span> <span class="mi">6</span><span class="o">)</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-dotimes">
+<span id="id8"></span><h2>ap-dotimes<a class="headerlink" href="#ap-dotimes" title="Permalink to this headline">¶</a></h2>
+<p>Usage <tt class="docutils literal"><span class="pre">(ap-dotimes</span> <span class="pre">n</span> <span class="pre">body)</span></tt></p>
+<p>This function evaluates the body <em>n</em> times, with the special
+variable <tt class="docutils literal"><span class="pre">it</span></tt> bound from <em>0</em> to <em>1-n</em>. It is useful for side-effects.</p>
+<div class="highlight-hy"><div class="highlight"><pre> <span class="o">=&gt;</span> <span class="o">(</span><span class="n">setv</span> <span class="n">n</span> <span class="o">[])</span>
+ <span class="o">=&gt;</span> <span class="o">(</span><span class="n">ap</span><span class="o">-</span><span class="n">dotimes</span> <span class="mi">3</span> <span class="o">(.</span><span class="n">append</span> <span class="n">n</span> <span class="n">it</span><span class="o">))</span>
+ <span class="o">=&gt;</span> <span class="n">n</span>
+<span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-first">
+<span id="id9"></span><h2>ap-first<a class="headerlink" href="#ap-first" title="Permalink to this headline">¶</a></h2>
+<p>Usage <tt class="docutils literal"><span class="pre">(ap-first</span> <span class="pre">predfn</span> <span class="pre">list)</span></tt></p>
+<p>This function returns the first element that passes the predicate or
+<tt class="docutils literal"><span class="pre">None</span></tt>, with the special variable <tt class="docutils literal"><span class="pre">it</span></tt> bound to the current element in
+iteration.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;(</span><span class="n">ap</span><span class="o">-</span><span class="n">first</span> <span class="o">(&gt;</span> <span class="n">it</span> <span class="mi">5</span><span class="o">)</span> <span class="o">(</span><span class="n">range</span> <span class="mi">10</span><span class="o">))</span>
+<span class="mi">6</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-last">
+<span id="id10"></span><h2>ap-last<a class="headerlink" href="#ap-last" title="Permalink to this headline">¶</a></h2>
+<p>Usage <tt class="docutils literal"><span class="pre">(ap-last</span> <span class="pre">predfn</span> <span class="pre">list)</span></tt></p>
+<p>This function returns the last element that passes the predicate or
+<tt class="docutils literal"><span class="pre">None</span></tt>, with the special variable <tt class="docutils literal"><span class="pre">it</span></tt> bound to the current element in
+iteration.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;(</span><span class="n">ap</span><span class="o">-</span><span class="n">last</span> <span class="o">(&gt;</span> <span class="n">it</span> <span class="mi">5</span><span class="o">)</span> <span class="o">(</span><span class="n">range</span> <span class="mi">10</span><span class="o">))</span>
+<span class="mi">9</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ap-reduce">
+<span id="id11"></span><h2>ap-reduce<a class="headerlink" href="#ap-reduce" title="Permalink to this headline">¶</a></h2>
+<p>Usage <tt class="docutils literal"><span class="pre">(ap-reduce</span> <span class="pre">form</span> <span class="pre">list</span> <span class="pre">&amp;optional</span> <span class="pre">initial-value)</span></tt></p>
+<p>This function returns the result of applying form to the first 2
+elements in the body and applying the result and the 3rd element
+etc. until the list is exhausted. Optionally an initial value can be
+supplied so the function will be applied to initial value and the
+first element instead. This exposes the element being iterated as
+<tt class="docutils literal"><span class="pre">it</span></tt> and the current accumulated value as <tt class="docutils literal"><span class="pre">acc</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;(</span><span class="n">ap</span><span class="o">-</span><span class="n">reduce</span> <span class="o">(+</span> <span class="n">it</span> <span class="n">acc</span><span class="o">)</span> <span class="o">(</span><span class="n">range</span> <span class="mi">10</span><span class="o">))</span>
+<span class="mi">45</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Anaphoric Macros</a><ul>
+<li><a class="reference internal" href="#macros">Macros</a><ul>
+<li><a class="reference internal" href="#ap-if">ap-if</a></li>
+<li><a class="reference internal" href="#ap-each">ap-each</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ap-each-while">ap-each-while</a></li>
+<li><a class="reference internal" href="#ap-map">ap-map</a></li>
+<li><a class="reference internal" href="#ap-map-when">ap-map-when</a></li>
+<li><a class="reference internal" href="#ap-filter">ap-filter</a></li>
+<li><a class="reference internal" href="#ap-reject">ap-reject</a></li>
+<li><a class="reference internal" href="#ap-dotimes">ap-dotimes</a></li>
+<li><a class="reference internal" href="#ap-first">ap-first</a></li>
+<li><a class="reference internal" href="#ap-last">ap-last</a></li>
+<li><a class="reference internal" href="#ap-reduce">ap-reduce</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Contrib Modules Index</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="loop.html"
+                        title="next chapter">loop/recur</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/contrib/anaphoric.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="loop.html" title="loop/recur"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Contrib Modules Index"
+             >previous</a> |</li>
+        <li><a href="../index.html">hy 0.9.12 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Contrib Modules Index</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
