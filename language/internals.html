@@ -1,0 +1,525 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Internal Hy Documentation &mdash; hy 0.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="hy 0.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Documentation Index" href="index.html" />
+    <link rel="next" title="Contrib Modules Index" href="../contrib/index.html" />
+    <link rel="prev" title="Reader Macros" href="readermacros.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../contrib/index.html" title="Contrib Modules Index"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="readermacros.html" title="Reader Macros"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hy 0.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Documentation Index</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="internal-hy-documentation">
+<h1>Internal Hy Documentation<a class="headerlink" href="#internal-hy-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These bits are mostly useful for folks who hack on Hy itself,
+but can also be used for those delving deeper in macro programming.</p>
+</div>
+<div class="section" id="hy-models">
+<span id="models"></span><h2>Hy Models<a class="headerlink" href="#hy-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introduction-to-hy-models">
+<h3>Introduction to Hy models<a class="headerlink" href="#introduction-to-hy-models" title="Permalink to this headline">¶</a></h3>
+<p>Hy models are a very thin layer on top of regular Python objects,
+representing Hy source code as data. Models only add source position
+information, and a handful of methods to support clean manipulation of
+Hy source code, for instance in macros. To achieve that goal, Hy models
+are mixins of a base Python class and <a class="reference internal" href="#hyobject"><em>HyObject</em></a>.</p>
+<div class="section" id="hyobject">
+<span id="id1"></span><h4>HyObject<a class="headerlink" href="#hyobject" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.HyObject</span></tt> is the base class of Hy models. It only
+implements one method, <tt class="docutils literal"><span class="pre">replace</span></tt>, which replaces the source position
+of the current object with the one passed as argument. This allows us to
+keep track of the original position of expressions that get modified by
+macros, be that in the compiler or in pure hy macros.</p>
+<p><tt class="docutils literal"><span class="pre">HyObject</span></tt> is not intended to be used directly to instantiate Hy
+models, but only as a mixin for other classes.</p>
+</div>
+</div>
+<div class="section" id="compound-models">
+<h3>Compound models<a class="headerlink" href="#compound-models" title="Permalink to this headline">¶</a></h3>
+<p>Parenthesized and bracketed lists are parsed as compound models by the
+Hy parser.</p>
+<div class="section" id="hylist">
+<span id="id2"></span><h4>HyList<a class="headerlink" href="#hylist" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.list.HyList</span></tt> is the base class of &#8220;iterable&#8221; Hy models. Its
+basic use is to represent bracketed <tt class="docutils literal"><span class="pre">[]</span></tt> lists, which, when used as a
+top-level expression, translate to Python list literals in the
+compilation phase.</p>
+<p>Adding a HyList to another iterable object reuses the class of the
+left-hand-side object, a useful behavior when you want to concatenate Hy
+objects in a macro, for instance.</p>
+</div>
+<div class="section" id="hyexpression">
+<span id="id3"></span><h4>HyExpression<a class="headerlink" href="#hyexpression" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.expression.HyExpression</span></tt> inherits <a class="reference internal" href="#hylist"><em>HyList</em></a> for
+parenthesized <tt class="docutils literal"><span class="pre">()</span></tt> expressions. The compilation result of those
+expressions depends on the first element of the list: the compiler
+dispatches expressions between compiler special-forms, user-defined
+macros, and regular Python function calls.</p>
+</div>
+<div class="section" id="hydict">
+<span id="id4"></span><h4>HyDict<a class="headerlink" href="#hydict" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.dict.HyDict</span></tt> inherits <a class="reference internal" href="#hylist"><em>HyList</em></a> for curly-bracketed <tt class="docutils literal"><span class="pre">{}</span></tt>
+expressions, which compile down to a Python dictionary literal.</p>
+<p>The decision of using a list instead of a dict as the base class for
+<tt class="docutils literal"><span class="pre">HyDict</span></tt> allows easier manipulation of dicts in macros, with the added
+benefit of allowing compound expressions as dict keys (as, for instance,
+the <a class="reference internal" href="#hyexpression"><em>HyExpression</em></a> Python class isn&#8217;t hashable).</p>
+</div>
+</div>
+<div class="section" id="atomic-models">
+<h3>Atomic models<a class="headerlink" href="#atomic-models" title="Permalink to this headline">¶</a></h3>
+<p>In the input stream, double-quoted strings, respecting the Python
+notation for strings, are parsed as a single token, which is directly
+parsed as a <a class="reference internal" href="#hystring"><em>HyString</em></a>.</p>
+<p>An uninterrupted string of characters, excluding spaces, brackets,
+quotes, double-quotes and comments, is parsed as an identifier.</p>
+<p>Identifiers are resolved to atomic models during the parsing phase in
+the following order:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#hy-numeric-models"><em>HyInteger</em></a></li>
+<li><a class="reference internal" href="#hy-numeric-models"><em>HyFloat</em></a></li>
+<li><a class="reference internal" href="#hy-numeric-models"><em>HyComplex</em></a> (if the atom isn&#8217;t a bare <tt class="docutils literal"><span class="pre">j</span></tt>)</li>
+<li><a class="reference internal" href="#hykeyword"><em>HyKeyword</em></a> (if the atom starts with <tt class="docutils literal"><span class="pre">:</span></tt>)</li>
+<li><a class="reference internal" href="#hylambdalistkeyword"><em>HyLambdaListKeyword</em></a> (if the atom starts with <tt class="docutils literal"><span class="pre">&amp;</span></tt>)</li>
+<li><a class="reference internal" href="#hysymbol"><em>HySymbol</em></a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="hystring">
+<span id="id5"></span><h4>HyString<a class="headerlink" href="#hystring" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.string.HyString</span></tt> is the base class of string-equivalent Hy
+models. It also represents double-quoted string literals, <tt class="docutils literal"><span class="pre">&quot;&quot;</span></tt>, which
+compile down to unicode string literals in Python. <tt class="docutils literal"><span class="pre">HyStrings</span></tt> inherit
+unicode objects in Python 2, and string objects in Python 3 (and are
+therefore not encoding-dependent).</p>
+<p><tt class="docutils literal"><span class="pre">HyString</span></tt> based models are immutable.</p>
+<p>Hy literal strings can span multiple lines, and are considered by the
+parser as a single unit, respecting the Python escapes for unicode
+strings.</p>
+</div>
+<div class="section" id="numeric-models">
+<span id="hy-numeric-models"></span><h4>Numeric models<a class="headerlink" href="#numeric-models" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.integer.HyInteger</span></tt> represents integer literals (using the
+<tt class="docutils literal"><span class="pre">long</span></tt> type on Python 2, and <tt class="docutils literal"><span class="pre">int</span></tt> on Python 3).</p>
+<p><tt class="docutils literal"><span class="pre">hy.models.float.HyFloat</span></tt> represents floating-point literals.</p>
+<p><tt class="docutils literal"><span class="pre">hy.models.complex.HyComplex</span></tt> represents complex literals.</p>
+<p>Numeric models are parsed using the corresponding Python routine, and
+valid numeric python literals will be turned into their Hy counterpart.</p>
+</div>
+<div class="section" id="hysymbol">
+<span id="id6"></span><h4>HySymbol<a class="headerlink" href="#hysymbol" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.symbol.HySymbol</span></tt> is the model used to represent symbols
+in the Hy language. It inherits <a class="reference internal" href="#hystring"><em>HyString</em></a>.</p>
+<p><tt class="docutils literal"><span class="pre">HySymbol</span></tt> objects are mangled in the parsing phase, to help Python
+interoperability:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Symbols surrounded by asterisks (<tt class="docutils literal"><span class="pre">*</span></tt>) are turned into uppercase;</li>
+<li>Dashes (<tt class="docutils literal"><span class="pre">-</span></tt>) are turned into underscores (<tt class="docutils literal"><span class="pre">_</span></tt>);</li>
+<li>One trailing question mark (<tt class="docutils literal"><span class="pre">?</span></tt>) is turned into a leading <tt class="docutils literal"><span class="pre">is_</span></tt>.</li>
+</ul>
+</div></blockquote>
+<p>Caveat: as the mangling is done during the parsing phase, it is possible
+to programmatically generate HySymbols that can&#8217;t be generated with Hy
+source code. Such a mechanism is used by <a class="reference internal" href="api.html#gensym"><em>gensym</em></a> to generate
+&#8220;uninterned&#8221; symbols.</p>
+</div>
+<div class="section" id="hykeyword">
+<span id="id7"></span><h4>HyKeyword<a class="headerlink" href="#hykeyword" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.keyword.HyKeyword</span></tt> represents keywords in Hy. Keywords are
+symbols starting with a <tt class="docutils literal"><span class="pre">:</span></tt>. The class inherits <a class="reference internal" href="#hystring"><em>HyString</em></a>.</p>
+<p>To distinguish <a class="reference internal" href="#hykeyword"><em>HyKeywords</em></a> from <a class="reference internal" href="#hysymbol"><em>HySymbols</em></a>, without the possibility of (involuntary) clashes, the
+private-use unicode character <tt class="docutils literal"><span class="pre">&quot;\uFDD0&quot;</span></tt> is prepended to the keyword
+literal before storage.</p>
+</div>
+<div class="section" id="hylambdalistkeyword">
+<span id="id8"></span><h4>HyLambdaListKeyword<a class="headerlink" href="#hylambdalistkeyword" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">hy.models.lambdalist.HyLambdaListKeyword</span></tt> represents lambda-list
+keywords, that is keywords used by the language definition inside
+function signatures. Lambda-list keywords are symbols starting with a
+<tt class="docutils literal"><span class="pre">&amp;</span></tt>. The class inherits <a class="reference internal" href="#hystring"><em>HyString</em></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="cons-cells">
+<span id="hycons"></span><h2>Cons Cells<a class="headerlink" href="#cons-cells" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">hy.models.cons.HyCons</span></tt> is a representation of Python-friendly <a class="reference external" href="http://en.wikipedia.org/wiki/Cons">cons
+cells</a>.  Cons cells are especially useful to mimic features of &#8220;usual&#8221;
+LISP variants such as Scheme or Common Lisp.</p>
+<p>A cons cell is a 2-item object, containing a <tt class="docutils literal"><span class="pre">car</span></tt> (head) and a
+<tt class="docutils literal"><span class="pre">cdr</span></tt> (tail). In some Lisp variants, the cons cell is the fundamental
+building block, and S-expressions are actually represented as linked
+lists of cons cells. This is not the case in Hy, as the usual
+expressions are made of Python lists wrapped in a
+<tt class="docutils literal"><span class="pre">HyExpression</span></tt>. However, the <tt class="docutils literal"><span class="pre">HyCons</span></tt> mimicks the behavior of
+&#8220;usual&#8221; Lisp variants thusly:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">(cons</span> <span class="pre">something</span> <span class="pre">nil)</span></tt> is <tt class="docutils literal"><span class="pre">(HyExpression</span> <span class="pre">[something])</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">(cons</span> <span class="pre">something</span> <span class="pre">some-list)</span></tt> is <tt class="docutils literal"><span class="pre">((type</span> <span class="pre">some-list)</span> <span class="pre">(+</span> <span class="pre">[something]</span>
+<span class="pre">some-list))</span></tt> (if <tt class="docutils literal"><span class="pre">some-list</span></tt> inherits from <tt class="docutils literal"><span class="pre">list</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">(get</span> <span class="pre">(cons</span> <span class="pre">a</span> <span class="pre">b)</span> <span class="pre">0)</span></tt> is <tt class="docutils literal"><span class="pre">a</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">(slice</span> <span class="pre">(cons</span> <span class="pre">a</span> <span class="pre">b)</span> <span class="pre">1)</span></tt> is <tt class="docutils literal"><span class="pre">b</span></tt></li>
+</ul>
+</div></blockquote>
+<p>Hy supports a dotted-list syntax, where <tt class="docutils literal"><span class="pre">'(a</span> <span class="pre">.</span> <span class="pre">b)</span></tt> means <tt class="docutils literal"><span class="pre">(cons</span> <span class="pre">'a</span>
+<span class="pre">'b)</span></tt> and <tt class="docutils literal"><span class="pre">'(a</span> <span class="pre">b</span> <span class="pre">.</span> <span class="pre">c)</span></tt> means <tt class="docutils literal"><span class="pre">(cons</span> <span class="pre">'a</span> <span class="pre">(cons</span> <span class="pre">'b</span> <span class="pre">'c))</span></tt>. If the
+compiler encounters a cons cell at the top level, it raises a
+compilation error.</p>
+<p><tt class="docutils literal"><span class="pre">HyCons</span></tt> wraps the passed arguments (car and cdr) in Hy types, to ease
+the manipulation of cons cells in a macro context.</p>
+</div>
+<div class="section" id="hy-internal-theory">
+<h2>Hy Internal Theory<a class="headerlink" href="#hy-internal-theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<span id="id10"></span><h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>The Hy internals work by acting as a front-end to Python bytecode, so
+that Hy itself compiles down to Python Bytecode, allowing an unmodified
+Python runtime to run Hy code, without even noticing it.</p>
+<p>The way we do this is by translating Hy into an internal Python AST
+datastructure, and building that AST down into Python bytecode using
+modules from the Python standard library, so that we don&#8217;t have to
+duplicate all the work of the Python internals for every single Python
+release.</p>
+<p>Hy works in four stages. The following sections will cover each step of Hy
+from source to runtime.</p>
+</div>
+<div class="section" id="steps-1-and-2-tokenizing-and-parsing">
+<span id="lexing"></span><h3>Steps 1 and 2: Tokenizing and parsing<a class="headerlink" href="#steps-1-and-2-tokenizing-and-parsing" title="Permalink to this headline">¶</a></h3>
+<p>The first stage of compiling Hy is to lex the source into tokens that we can
+deal with. We use a project called rply, which is a really nice (and fast)
+parser, written in a subset of Python called rpython.</p>
+<p>The lexing code is all defined in <tt class="docutils literal"><span class="pre">hy.lex.lexer</span></tt>. This code is mostly just
+defining the Hy grammar, and all the actual hard parts are taken care of by
+rply &#8211; we just define &#8220;callbacks&#8221; for rply in <tt class="docutils literal"><span class="pre">hy.lex.parser</span></tt>, which takes
+the tokens generated, and returns the Hy models.</p>
+<p>You can think of the Hy models as the &#8220;AST&#8221; for Hy, it&#8217;s what Macros operate
+on (directly), and it&#8217;s what the compiler uses when it compiles Hy down.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Section <a class="reference internal" href="#models"><em>Hy Models</em></a> for more information on Hy models and what they mean.</p>
+</div>
+</div>
+<div class="section" id="step-3-hy-compilation-to-python-ast">
+<span id="compiling"></span><h3>Step 3: Hy compilation to Python AST<a class="headerlink" href="#step-3-hy-compilation-to-python-ast" title="Permalink to this headline">¶</a></h3>
+<p>This is where most of the magic in Hy happens. This is where we take Hy AST
+(the models), and compile them into Python AST. A couple of funky things happen
+here to work past a few problems in AST, and working in the compiler is some
+of the most important work we do have.</p>
+<p>The compiler is a bit complex, so don&#8217;t feel bad if you don&#8217;t grok it on the
+first shot, it may take a bit of time to get right.</p>
+<p>The main entry-point to the Compiler is <tt class="docutils literal"><span class="pre">HyASTCompiler.compile</span></tt>. This method
+is invoked, and the only real &#8220;public&#8221; method on the class (that is to say,
+we don&#8217;t really promise the API beyond that method).</p>
+<p>In fact, even internally, we don&#8217;t recurse directly hardly ever, we almost
+always force the Hy tree through <tt class="docutils literal"><span class="pre">compile</span></tt>, and will often do this with
+sub-elements of an expression that we have. It&#8217;s up to the Type-based dispatcher
+to properly dispatch sub-elements.</p>
+<p>All methods that preform a compilation are marked with the <tt class="docutils literal"><span class="pre">&#64;builds()</span></tt>
+decorator. You can either pass the class of the Hy model that it compiles,
+or you can use a string for expressions. I&#8217;ll clear this up in a second.</p>
+<div class="section" id="first-stage-type-dispatch">
+<h4>First stage type-dispatch<a class="headerlink" href="#first-stage-type-dispatch" title="Permalink to this headline">¶</a></h4>
+<p>Let&#8217;s start in the <tt class="docutils literal"><span class="pre">compile</span></tt> method. The first thing we do is check the
+Type of the thing we&#8217;re building. We look up to see if we have a method that
+can build the <tt class="docutils literal"><span class="pre">type()</span></tt> that we have, and dispatch to the method that can
+handle it. If we don&#8217;t have any methods that can build that type, we raise
+an internal <tt class="docutils literal"><span class="pre">Exception</span></tt>.</p>
+<p>For instance, if we have a <tt class="docutils literal"><span class="pre">HyString</span></tt>, we have an almost 1-to-1 mapping of
+Hy AST to Python AST. The <tt class="docutils literal"><span class="pre">compile_string</span></tt> method takes the <tt class="docutils literal"><span class="pre">HyString</span></tt>, and
+returns an <tt class="docutils literal"><span class="pre">ast.Str()</span></tt> that&#8217;s populated with the correct line-numbers and
+content.</p>
+</div>
+<div class="section" id="macro-expand">
+<h4>Macro-expand<a class="headerlink" href="#macro-expand" title="Permalink to this headline">¶</a></h4>
+<p>If we get a <tt class="docutils literal"><span class="pre">HyExpression</span></tt>, we&#8217;ll attempt to see if this is a known
+Macro, and push to have it expanded by invoking <tt class="docutils literal"><span class="pre">hy.macros.macroexpand</span></tt>, then
+push the result back into <tt class="docutils literal"><span class="pre">HyASTCompiler.compile</span></tt>.</p>
+</div>
+<div class="section" id="second-stage-expression-dispatch">
+<h4>Second stage expression-dispatch<a class="headerlink" href="#second-stage-expression-dispatch" title="Permalink to this headline">¶</a></h4>
+<p>The only special case is the <tt class="docutils literal"><span class="pre">HyExpression</span></tt>, since we need to create different
+AST depending on the special form in question. For instance, when we hit an
+<tt class="docutils literal"><span class="pre">(if</span> <span class="pre">true</span> <span class="pre">true</span> <span class="pre">false)</span></tt>, we need to generate a <tt class="docutils literal"><span class="pre">ast.If</span></tt>, and properly
+compile the sub-nodes. This is where the <tt class="docutils literal"><span class="pre">&#64;builds()</span></tt> with a String as an
+argument comes in.</p>
+<p>For the <tt class="docutils literal"><span class="pre">compile_expression</span></tt> (which is defined with an
+<tt class="docutils literal"><span class="pre">&#64;builds(HyExpression)</span></tt>) will dispatch based on the string of the first
+argument. If, for some reason, the first argument is not a string, it will
+properly handle that case as well (most likely by raising an <tt class="docutils literal"><span class="pre">Exception</span></tt>).</p>
+<p>If the String isn&#8217;t known to Hy, it will default to create an <tt class="docutils literal"><span class="pre">ast.Call</span></tt>,
+which will try to do a runtime call (in Python, something like <tt class="docutils literal"><span class="pre">foo()</span></tt>).</p>
+</div>
+<div class="section" id="issues-hit-with-python-ast">
+<h4>Issues hit with Python AST<a class="headerlink" href="#issues-hit-with-python-ast" title="Permalink to this headline">¶</a></h4>
+<p>Python AST is great; it&#8217;s what&#8217;s enabled us to write such a powerful project
+on top of Python without having to fight Python too hard. Like anything, we&#8217;ve
+had our fair share of issues, and here&#8217;s a short list of the common ones you
+might run into.</p>
+<p><em>Python differentiates between Statements and Expressions</em>.</p>
+<p>This might not sound like a big deal &#8211; in fact, to most Python programmers,
+this will shortly become a &#8220;Well, yeah&#8221; moment.</p>
+<p>In Python, doing something like:</p>
+<p><tt class="docutils literal"><span class="pre">print</span> <span class="pre">for</span> <span class="pre">x</span> <span class="pre">in</span> <span class="pre">range(10):</span> <span class="pre">pass</span></tt>, because <tt class="docutils literal"><span class="pre">print</span></tt> prints expressions, and
+<tt class="docutils literal"><span class="pre">for</span></tt> isn&#8217;t an expression, it&#8217;s a control flow statement. Things like
+<tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">1</span></tt> are Expressions, as is <tt class="docutils literal"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">x</span></tt>, but other language
+features, such as <tt class="docutils literal"><span class="pre">if</span></tt>, <tt class="docutils literal"><span class="pre">for</span></tt>, or <tt class="docutils literal"><span class="pre">while</span></tt> are statements.</p>
+<p>Since they have no &#8220;value&#8221; to Python, this makes working in Hy hard, since
+doing something like <tt class="docutils literal"><span class="pre">(print</span> <span class="pre">(if</span> <span class="pre">true</span> <span class="pre">true</span> <span class="pre">false))</span></tt> is not just common, it&#8217;s
+expected.</p>
+<p>As a result, we auto-mangle things using a <tt class="docutils literal"><span class="pre">Result</span></tt> object, where we offer
+up any <tt class="docutils literal"><span class="pre">ast.stmt</span></tt> that need to get run, and a single <tt class="docutils literal"><span class="pre">ast.expr</span></tt> that can
+be used to get the value of whatever was just run. Hy does this by forcing
+assignment to things while running.</p>
+<p>As example, the Hy:</p>
+<div class="highlight-python"><div class="highlight"><pre>(print (if true true false))
+</pre></div>
+</div>
+<p>Will turn into:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="n">_mangled_name_here</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">_mangled_name_here</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">print</span> <span class="n">_mangled_name_here</span>
+</pre></div>
+</div>
+<p>OK, that was a bit of a lie, since we actually turn that statement
+into:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="bp">True</span> <span class="k">if</span> <span class="bp">True</span> <span class="k">else</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>By forcing things into an <tt class="docutils literal"><span class="pre">ast.expr</span></tt> if we can, but the general idea holds.</p>
+</div>
+</div>
+<div class="section" id="step-4-python-bytecode-output-and-runtime">
+<h3>Step 4: Python bytecode output and runtime<a class="headerlink" href="#step-4-python-bytecode-output-and-runtime" title="Permalink to this headline">¶</a></h3>
+<p>After we have a Python AST tree that&#8217;s complete, we can try and compile it to
+Python bytecode by pushing it through <tt class="docutils literal"><span class="pre">eval</span></tt>. From here on out, we&#8217;re no
+longer in control, and Python is taking care of everything. This is why things
+like Python tracebacks, pdb and django apps work.</p>
+</div>
+</div>
+<div class="section" id="hy-macros">
+<h2>Hy Macros<a class="headerlink" href="#hy-macros" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-gensym-for-safer-macros">
+<span id="using-gensym"></span><h3>Using gensym for safer macros<a class="headerlink" href="#using-gensym-for-safer-macros" title="Permalink to this headline">¶</a></h3>
+<p>When writing macros, one must be careful to avoid capturing external variables
+or using variable names that might conflict with user code.</p>
+<p>We will use an example macro <tt class="docutils literal"><span class="pre">nif</span></tt> (see <a class="reference external" href="http://letoverlambda.com/index.cl/guest/chap3.html#sec_5">http://letoverlambda.com/index.cl/guest/chap3.html#sec_5</a>
+for a more complete description.) <tt class="docutils literal"><span class="pre">nif</span></tt> is an example, something like a numeric <tt class="docutils literal"><span class="pre">if</span></tt>,
+where based on the expression, one of the 3 forms is called depending on if the
+expression is positive, zero or negative.</p>
+<p>A first pass might be someting like:</p>
+<div class="highlight-hy"><div class="highlight"><pre>(defmacro nif [expr pos-form zero-form neg-form]
+  `(let [[obscure-name ~expr]]
+    (cond [(pos? obscure-name) ~pos-form]
+          [(zero? obscure-name) ~zero-form]
+          [(neg? obscure-name) ~neg-form])))
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">obsure-name</span></tt> is an attempt to pick some variable name as not to
+conflict with other code. But of course, while well-intentioned,
+this is no guarantee.</p>
+<p>The method <a class="reference internal" href="api.html#gensym"><em>gensym</em></a> is designed to generate a new, unique symbol for just
+such an occasion. A much better version of <tt class="docutils literal"><span class="pre">nif</span></tt> would be:</p>
+<div class="highlight-hy"><div class="highlight"><pre>(defmacro nif [expr pos-form zero-form neg-form]
+  (let [[g (gensym)]]
+    `(let [[~g ~expr]]
+       (cond [(pos? ~g) ~pos-form]
+             [(zero? ~g) ~zero-form]
+             [(neg? ~g) ~neg-form]))))
+</pre></div>
+</div>
+<p>This is an easy case, since there is only one symbol. But if there is
+a need for several gensym&#8217;s there is a second macro <a class="reference internal" href="api.html#with-gensyms"><em>with-gensyms</em></a> that
+basically expands to a series of <tt class="docutils literal"><span class="pre">let</span></tt> statements:</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">(</span><span class="n">with</span><span class="o">-</span><span class="n">gensyms</span> <span class="o">[</span><span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">]</span>
+  <span class="o">...)</span>
+</pre></div>
+</div>
+<p>expands to:</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">(</span><span class="n">let</span> <span class="o">[[</span><span class="n">a</span> <span class="o">(</span><span class="n">gensym</span><span class="o">)</span>
+      <span class="o">[</span><span class="n">b</span> <span class="o">(</span><span class="n">gensym</span><span class="o">)</span>
+      <span class="o">[</span><span class="n">c</span> <span class="o">(</span><span class="n">gensym</span><span class="o">)]]</span>
+  <span class="o">...)</span>
+</pre></div>
+</div>
+<p>so our re-written <tt class="docutils literal"><span class="pre">nif</span></tt> would look like:</p>
+<div class="highlight-hy"><div class="highlight"><pre>(defmacro nif [expr pos-form zero-form neg-form]
+  (with-gensyms [g]
+    `(let [[~g ~expr]]
+       (cond [(pos? ~g) ~pos-form]
+             [(zero? ~g) ~zero-form]
+             [(neg? ~g) ~neg-form]))))
+</pre></div>
+</div>
+<p>Finally, though we can make a new macro that does all this for us. <a class="reference internal" href="api.html#defmacro-g"><em>defmacro/g!</em></a>
+will take all symbols that begin with <tt class="docutils literal"><span class="pre">g!</span></tt> and automatically call <tt class="docutils literal"><span class="pre">gensym</span></tt> with the
+remainder of the symbol. So <tt class="docutils literal"><span class="pre">g!a</span></tt> would become <tt class="docutils literal"><span class="pre">(gensym</span> <span class="pre">&quot;a&quot;)</span></tt>.</p>
+<p>Our final version of <tt class="docutils literal"><span class="pre">nif</span></tt>, built with <tt class="docutils literal"><span class="pre">defmacro/g!</span></tt> becomes:</p>
+<div class="highlight-hy"><div class="highlight"><pre>(defmacro/g! nif [expr pos-form zero-form neg-form]
+  `(let [[~g!res ~expr]]
+     (cond [(pos? ~g!res) ~pos-form]
+           [(zero? ~g!res) ~zero-form]
+           [(neg? ~g!res) ~neg-form]))))
+</pre></div>
+</div>
+</div>
+<div class="section" id="checking-macro-arguments-and-raising-exceptions">
+<h3>Checking macro arguments and raising exceptions<a class="headerlink" href="#checking-macro-arguments-and-raising-exceptions" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="hy-compiler-builtins">
+<h2>Hy Compiler Builtins<a class="headerlink" href="#hy-compiler-builtins" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Internal Hy Documentation</a><ul>
+<li><a class="reference internal" href="#hy-models">Hy Models</a><ul>
+<li><a class="reference internal" href="#introduction-to-hy-models">Introduction to Hy models</a><ul>
+<li><a class="reference internal" href="#hyobject">HyObject</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compound-models">Compound models</a><ul>
+<li><a class="reference internal" href="#hylist">HyList</a></li>
+<li><a class="reference internal" href="#hyexpression">HyExpression</a></li>
+<li><a class="reference internal" href="#hydict">HyDict</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#atomic-models">Atomic models</a><ul>
+<li><a class="reference internal" href="#hystring">HyString</a></li>
+<li><a class="reference internal" href="#numeric-models">Numeric models</a></li>
+<li><a class="reference internal" href="#hysymbol">HySymbol</a></li>
+<li><a class="reference internal" href="#hykeyword">HyKeyword</a></li>
+<li><a class="reference internal" href="#hylambdalistkeyword">HyLambdaListKeyword</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cons-cells">Cons Cells</a></li>
+<li><a class="reference internal" href="#hy-internal-theory">Hy Internal Theory</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#steps-1-and-2-tokenizing-and-parsing">Steps 1 and 2: Tokenizing and parsing</a></li>
+<li><a class="reference internal" href="#step-3-hy-compilation-to-python-ast">Step 3: Hy compilation to Python AST</a><ul>
+<li><a class="reference internal" href="#first-stage-type-dispatch">First stage type-dispatch</a></li>
+<li><a class="reference internal" href="#macro-expand">Macro-expand</a></li>
+<li><a class="reference internal" href="#second-stage-expression-dispatch">Second stage expression-dispatch</a></li>
+<li><a class="reference internal" href="#issues-hit-with-python-ast">Issues hit with Python AST</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-4-python-bytecode-output-and-runtime">Step 4: Python bytecode output and runtime</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hy-macros">Hy Macros</a><ul>
+<li><a class="reference internal" href="#using-gensym-for-safer-macros">Using gensym for safer macros</a></li>
+<li><a class="reference internal" href="#checking-macro-arguments-and-raising-exceptions">Checking macro arguments and raising exceptions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hy-compiler-builtins">Hy Compiler Builtins</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="readermacros.html"
+                        title="previous chapter">Reader Macros</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../contrib/index.html"
+                        title="next chapter">Contrib Modules Index</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/language/internals.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../contrib/index.html" title="Contrib Modules Index"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="readermacros.html" title="Reader Macros"
+             >previous</a> |</li>
+        <li><a href="../index.html">hy 0.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Documentation Index</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

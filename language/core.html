@@ -1,0 +1,895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hy Core &mdash; hy 0.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="hy 0.10.0 documentation" href="../index.html" />
+    <link rel="up" title="Documentation Index" href="index.html" />
+    <link rel="next" title="Reader Macros" href="readermacros.html" />
+    <link rel="prev" title="Hy (the language)" href="api.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="readermacros.html" title="Reader Macros"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="Hy (the language)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">hy 0.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Documentation Index</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hy-core">
+<h1>Hy Core<a class="headerlink" href="#hy-core" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="core-functions">
+<h2>Core Functions<a class="headerlink" href="#core-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="coll">
+<span id="is-coll-fn"></span><h3>coll?<a class="headerlink" href="#coll" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(coll?</span> <span class="pre">x)</span></tt></p>
+<p>Returns true if argument is iterable and not a string.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">coll</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">coll</span><span class="o">?</span> <span class="o">{</span><span class="s">&quot;a&quot;</span> <span class="mi">1</span> <span class="s">&quot;b&quot;</span> <span class="mi">2</span><span class="o">})</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">coll</span><span class="o">?</span> <span class="s">&quot;abc&quot;</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cons">
+<h3>cons<a class="headerlink" href="#cons" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(cons</span> <span class="pre">a</span> <span class="pre">b)</span></tt></p>
+<p>Returns a fresh <a class="reference internal" href="internals.html#hycons"><em>cons cell</em></a> with car <cite>a</cite> and cdr <cite>b</cite>.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (setv a (cons &#39;hd &#39;tl))
+
+=&gt; (= &#39;hd (car a))
+True
+
+=&gt; (= &#39;tl (cdr a))
+True
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>cons?<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(cons?</span> <span class="pre">foo)</span></tt></p>
+<p>Checks whether <tt class="docutils literal"><span class="pre">foo</span></tt> is a <a class="reference internal" href="internals.html#hycons"><em>cons cell</em></a>.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (setv a (cons &#39;hd &#39;tl))
+
+=&gt; (cons? a)
+True
+
+=&gt; (cons? nil)
+False
+
+=&gt; (cons? [1 2 3])
+False
+</pre></div>
+</div>
+</div>
+<div class="section" id="dec">
+<span id="dec-fn"></span><h3>dec<a class="headerlink" href="#dec" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(dec</span> <span class="pre">x)</span></tt></p>
+<p>Return one less than x. Equivalent to <tt class="docutils literal"><span class="pre">(-</span> <span class="pre">x</span> <span class="pre">1)</span></tt>.</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">dec</span> <span class="mi">3</span><span class="o">)</span>
+<span class="mi">2</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">dec</span> <span class="mi">0</span><span class="o">)</span>
+<span class="o">-</span><span class="mi">1</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">dec</span> <span class="mf">12.3</span><span class="o">)</span>
+<span class="mf">11.3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="disassemble">
+<span id="disassemble-fn"></span><h3>disassemble<a class="headerlink" href="#disassemble" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(disassemble</span> <span class="pre">tree</span> <span class="pre">&amp;optional</span> <span class="pre">[codegen</span> <span class="pre">false])</span></tt></p>
+<p>Dump the Python AST for given Hy <tt class="docutils literal"><span class="pre">tree</span></tt> to standard output. If <em>codegen</em>
+is <tt class="docutils literal"><span class="pre">true</span></tt> function prints Python code instead.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (disassemble &#39;(print &quot;Hello World!&quot;))
+Module(
+ body=[
+     Expr(value=Call(func=Name(id=&#39;print&#39;), args=[Str(s=&#39;Hello World!&#39;)], keywords=[], starargs=None, kwargs=None))])
+
+=&gt; (disassemble &#39;(print &quot;Hello World!&quot;) true)
+print(&#39;Hello World!&#39;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="empty">
+<span id="emtpy-fn"></span><h3>empty?<a class="headerlink" href="#empty" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(empty?</span> <span class="pre">coll)</span></tt></p>
+<p>Return True if <tt class="docutils literal"><span class="pre">coll</span></tt> is empty, i.e. <tt class="docutils literal"><span class="pre">(=</span> <span class="pre">0</span> <span class="pre">(len</span> <span class="pre">coll))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">empty</span><span class="o">?</span> <span class="o">[])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">empty</span><span class="o">?</span> <span class="s">&quot;&quot;</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">empty</span><span class="o">?</span> <span class="o">(,</span> <span class="mi">1</span> <span class="mi">2</span><span class="o">))</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="every">
+<span id="every-fn"></span><h3>every?<a class="headerlink" href="#every" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(every?</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return True if <tt class="docutils literal"><span class="pre">(pred</span> <span class="pre">x)</span></tt> is logical true for every <tt class="docutils literal"><span class="pre">x</span></tt> in <tt class="docutils literal"><span class="pre">coll</span></tt>, otherwise False. Return True if <tt class="docutils literal"><span class="pre">coll</span></tt> is empty.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">every</span><span class="o">?</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="o">])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">every</span><span class="o">?</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span><span class="o">])</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">every</span><span class="o">?</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">])</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">every</span><span class="o">?</span> <span class="n">even</span><span class="o">?</span> <span class="o">[])</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="float">
+<span id="float-fn"></span><h3>float?<a class="headerlink" href="#float" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(float?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is a float.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">float</span><span class="o">?</span> <span class="mf">3.2</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">float</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="even">
+<span id="even-fn"></span><h3>even?<a class="headerlink" href="#even" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(even?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is even.</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">even</span><span class="o">?</span> <span class="mi">2</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">even</span><span class="o">?</span> <span class="mi">13</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">even</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="identity-fn">
+<span id="identity"></span><h3>identity<a class="headerlink" href="#identity-fn" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(identity</span> <span class="pre">x)</span></tt></p>
+<p>Returns argument supplied to the function</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">identity</span> <span class="mi">4</span><span class="o">)</span>
+<span class="mi">4</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">map</span> <span class="n">identity</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inc">
+<span id="inc-fn"></span><h3>inc<a class="headerlink" href="#inc" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(inc</span> <span class="pre">x)</span></tt></p>
+<p>Return one more than x. Equivalent to <tt class="docutils literal"><span class="pre">(+</span> <span class="pre">x</span> <span class="pre">1)</span></tt>.</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">inc</span> <span class="mi">3</span><span class="o">)</span>
+<span class="mi">4</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">inc</span> <span class="mi">0</span><span class="o">)</span>
+<span class="mi">1</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">inc</span> <span class="mf">12.3</span><span class="o">)</span>
+<span class="mf">13.3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="instance">
+<span id="instance-fn"></span><h3>instance?<a class="headerlink" href="#instance" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(instance?</span> <span class="pre">CLASS</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is an instance of CLASS.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">instance</span><span class="o">?</span> <span class="n">float</span> <span class="mf">1.0</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">instance</span><span class="o">?</span> <span class="n">int</span> <span class="mi">7</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">instance</span><span class="o">?</span> <span class="n">str</span> <span class="o">(</span><span class="n">str</span> <span class="s">&quot;foo&quot;</span><span class="o">))</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">defclass</span> <span class="n">TestClass</span> <span class="o">[</span><span class="n">object</span><span class="o">])</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">setv</span> <span class="n">inst</span> <span class="o">(</span><span class="n">TestClass</span><span class="o">))</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">instance</span><span class="o">?</span> <span class="n">TestClass</span> <span class="n">inst</span><span class="o">)</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integer">
+<span id="integer-fn"></span><h3>integer?<a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(integer?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is an integer. For Python 2, this is
+either <tt class="docutils literal"><span class="pre">int</span></tt> or <tt class="docutils literal"><span class="pre">long</span></tt>. For Python 3, this is <tt class="docutils literal"><span class="pre">int</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">integer</span><span class="o">?</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">integer</span><span class="o">?</span> <span class="o">-</span><span class="mf">2.4</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="iterable">
+<span id="iterable-fn"></span><h3>iterable?<a class="headerlink" href="#iterable" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(iterable?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is iterable. Iterable objects return a new iterator
+when <tt class="docutils literal"><span class="pre">(iter</span> <span class="pre">x)</span></tt> is called. Contrast with <a class="reference internal" href="#iterator-fn"><em>iterator?</em></a>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">works</span> <span class="k">for</span> <span class="n">strings</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">iterable</span><span class="o">?</span> <span class="o">(</span><span class="n">str</span> <span class="s">&quot;abcde&quot;</span><span class="o">))</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">works</span> <span class="k">for</span> <span class="n">lists</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">iterable</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">works</span> <span class="k">for</span> <span class="n">tuples</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">iterable</span><span class="o">?</span> <span class="o">(,</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="o">))</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">works</span> <span class="k">for</span> <span class="n">dicts</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">iterable</span><span class="o">?</span> <span class="o">{:</span><span class="n">a</span> <span class="mi">1</span> <span class="o">:</span><span class="n">b</span> <span class="mi">2</span> <span class="o">:</span><span class="n">c</span> <span class="mi">3</span><span class="o">})</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">works</span> <span class="k">for</span> <span class="n">iterators</span><span class="o">/</span><span class="n">generators</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">iterable</span><span class="o">?</span> <span class="o">(</span><span class="n">repeat</span> <span class="mi">3</span><span class="o">))</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="iterator">
+<span id="iterator-fn"></span><h3>iterator?<a class="headerlink" href="#iterator" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(iterator?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is an iterator. Iterators are objects that return
+themselves as an iterator when <tt class="docutils literal"><span class="pre">(iter</span> <span class="pre">x)</span></tt> is called.
+Contrast with <a class="reference internal" href="#iterable-fn"><em>iterable?</em></a>.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; ;; doesn&#39;t work for a list
+=&gt; (iterator? [1 2 3 4 5])
+False
+
+=&gt; ;; but we can get an iter from the list
+=&gt; (iterator? (iter [1 2 3 4 5]))
+True
+
+=&gt; ;; doesn&#39;t work for dict
+=&gt; (iterator? {:a 1 :b 2 :c 3})
+False
+
+=&gt; ;; create an iterator from the dict
+=&gt; (iterator? (iter {:a 1 :b 2 :c 3}))
+True
+</pre></div>
+</div>
+</div>
+<div class="section" id="list">
+<h3>list*<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(list*</span> <span class="pre">head</span> <span class="pre">&amp;rest</span> <span class="pre">tail)</span></tt></p>
+<p>Generate a chain of nested cons cells (a dotted list) containing the
+arguments. If the argument list only has one element, return it.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">)</span>
+<span class="o">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">.</span> <span class="mi">4</span><span class="o">)</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">[</span><span class="mi">4</span><span class="o">])</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span><span class="o">*</span> <span class="mi">1</span><span class="o">)</span>
+<span class="mi">1</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">cons</span><span class="o">?</span> <span class="o">(</span><span class="n">list</span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">))</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="macroexpand">
+<span id="macroexpand-fn"></span><h3>macroexpand<a class="headerlink" href="#macroexpand" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(macroexpand</span> <span class="pre">form)</span></tt></p>
+<p>Returns the full macro expansion of form.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (macroexpand &#39;(-&gt; (a b) (x y)))
+(u&#39;x&#39; (u&#39;a&#39; u&#39;b&#39;) u&#39;y&#39;)
+
+=&gt; (macroexpand &#39;(-&gt; (a b) (-&gt; (c d) (e f))))
+(u&#39;e&#39; (u&#39;c&#39; (u&#39;a&#39; u&#39;b&#39;) u&#39;d&#39;) u&#39;f&#39;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="macroexpand-1">
+<span id="macroexpand-1-fn"></span><h3>macroexpand-1<a class="headerlink" href="#macroexpand-1" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(macroexpand-1</span> <span class="pre">form)</span></tt></p>
+<p>Returns the single step macro expansion of form.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (macroexpand-1 &#39;(-&gt; (a b) (-&gt; (c d) (e f))))
+(u&#39;_&gt;&#39; (u&#39;a&#39; u&#39;b&#39;) (u&#39;c&#39; u&#39;d&#39;) (u&#39;e&#39; u&#39;f&#39;))
+</pre></div>
+</div>
+</div>
+<div class="section" id="neg">
+<span id="neg-fn"></span><h3>neg?<a class="headerlink" href="#neg" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(neg?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is less than zero (0).</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">neg</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">neg</span><span class="o">?</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">neg</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nil">
+<span id="nil-fn"></span><h3>nil?<a class="headerlink" href="#nil" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(nil?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is nil/None.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">nil</span><span class="o">?</span> <span class="n">nil</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nil</span><span class="o">?</span> <span class="n">None</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nil</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">setf</span> <span class="n">x</span> <span class="n">nil</span><span class="o">)</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nil</span><span class="o">?</span> <span class="n">x</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">list</span><span class="o">.</span><span class="na">append</span> <span class="n">always</span> <span class="n">returns</span> <span class="n">None</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nil</span><span class="o">?</span> <span class="o">(.</span><span class="n">append</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="o">]</span> <span class="mi">4</span><span class="o">))</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="none">
+<span id="none-fn"></span><h3>none?<a class="headerlink" href="#none" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(none?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is None.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">none</span><span class="o">?</span> <span class="n">None</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">none</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">setf</span> <span class="n">x</span> <span class="n">None</span><span class="o">)</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">none</span><span class="o">?</span> <span class="n">x</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">;;</span> <span class="n">list</span><span class="o">.</span><span class="na">append</span> <span class="n">always</span> <span class="n">returns</span> <span class="n">None</span>
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">none</span><span class="o">?</span> <span class="o">(.</span><span class="n">append</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="o">]</span> <span class="mi">4</span><span class="o">))</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nth">
+<span id="nth-fn"></span><h3>nth<a class="headerlink" href="#nth" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(nth</span> <span class="pre">coll</span> <span class="pre">n)</span></tt></p>
+<p>Return the <cite>nth</cite> item in a collection, counting from 0. Unlike
+<tt class="docutils literal"><span class="pre">get</span></tt>, <tt class="docutils literal"><span class="pre">nth</span></tt> works on both iterators and iterables. Returns <tt class="docutils literal"><span class="pre">None</span></tt>
+if the <cite>n</cite> is outside the range of <cite>coll</cite>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">nth</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">7</span><span class="o">]</span> <span class="mi">1</span><span class="o">)</span>
+<span class="mi">2</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nth</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">7</span><span class="o">]</span> <span class="mi">3</span><span class="o">)</span>
+<span class="mi">7</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">none</span><span class="o">?</span> <span class="o">(</span><span class="n">nth</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">7</span><span class="o">]</span> <span class="mi">5</span><span class="o">))</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">nth</span> <span class="o">(</span><span class="n">take</span> <span class="mi">3</span> <span class="o">(</span><span class="n">drop</span> <span class="mi">2</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span><span class="o">]))</span> <span class="mi">2</span><span class="o">))</span>
+<span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="numeric">
+<span id="numeric-fn"></span><h3>numeric?<a class="headerlink" href="#numeric" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(numeric?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is a numeric, as defined in the Python
+numbers module class <tt class="docutils literal"><span class="pre">numbers.Number</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">numeric</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">numeric</span><span class="o">?</span> <span class="mf">3.2</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">numeric</span><span class="o">?</span> <span class="s">&quot;foo&quot;</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="odd">
+<span id="odd-fn"></span><h3>odd?<a class="headerlink" href="#odd" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(odd?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is odd.</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">odd</span><span class="o">?</span> <span class="mi">13</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">odd</span><span class="o">?</span> <span class="mi">2</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">odd</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pos">
+<span id="pos-fn"></span><h3>pos?<a class="headerlink" href="#pos" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(pos?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is greater than zero (0).</p>
+<p>Raises <tt class="docutils literal"><span class="pre">TypeError</span></tt> if <tt class="docutils literal"><span class="pre">(not</span> <span class="pre">(numeric?</span> <span class="pre">x))</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">pos</span><span class="o">?</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">pos</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">pos</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="second">
+<span id="second-fn"></span><h3>second<a class="headerlink" href="#second" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(second</span> <span class="pre">coll)</span></tt></p>
+<p>Return the second member of <tt class="docutils literal"><span class="pre">coll</span></tt>. Equivalent to
+<tt class="docutils literal"><span class="pre">(get</span> <span class="pre">coll</span> <span class="pre">1)</span></tt></p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">second</span> <span class="o">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span><span class="o">])</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="some">
+<span id="some-fn"></span><h3>some<a class="headerlink" href="#some" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.13.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(some</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return True if <tt class="docutils literal"><span class="pre">(pred</span> <span class="pre">x)</span></tt> is logical true for any <tt class="docutils literal"><span class="pre">x</span></tt> in <tt class="docutils literal"><span class="pre">coll</span></tt>, otherwise False. Return False if <tt class="docutils literal"><span class="pre">coll</span></tt> is empty.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">some</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="o">])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">some</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span><span class="o">])</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">some</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">6</span><span class="o">])</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">some</span> <span class="n">even</span><span class="o">?</span> <span class="o">[])</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="string">
+<span id="string-fn"></span><h3>string?<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(string?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is a string.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">string</span><span class="o">?</span> <span class="s">&quot;foo&quot;</span><span class="o">)</span>
+<span class="n">True</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">string</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="zero">
+<span id="zero-fn"></span><h3>zero?<a class="headerlink" href="#zero" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(zero?</span> <span class="pre">x)</span></tt></p>
+<p>Return True if x is zero (0).</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">zero</span><span class="o">?</span> <span class="mi">3</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">zero</span><span class="o">?</span> <span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+<span class="n">False</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">zero</span><span class="o">?</span> <span class="mi">0</span><span class="o">)</span>
+<span class="n">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="sequence-functions">
+<h2>Sequence Functions<a class="headerlink" href="#sequence-functions" title="Permalink to this headline">¶</a></h2>
+<p>Sequence functions can either create or operate on a potentially
+infinite sequence without requiring the sequence be fully realized in
+a list or similar container. They do this by returning a Python
+iterator.</p>
+<p>We can use the canonical infinite Fibonacci number generator
+as an example of how to use some of these functions.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">(</span><span class="n">defn</span> <span class="n">fib</span> <span class="o">[]</span>
+  <span class="o">(</span><span class="n">setv</span> <span class="n">a</span> <span class="mi">0</span><span class="o">)</span>
+  <span class="o">(</span><span class="n">setv</span> <span class="n">b</span> <span class="mi">1</span><span class="o">)</span>
+  <span class="o">(</span><span class="k">while</span> <span class="kc">true</span>
+    <span class="o">(</span><span class="n">yield</span> <span class="n">a</span><span class="o">)</span>
+    <span class="o">(</span><span class="n">setv</span> <span class="o">(,</span> <span class="n">a</span> <span class="n">b</span><span class="o">)</span> <span class="o">(,</span> <span class="n">b</span> <span class="o">(+</span> <span class="n">a</span> <span class="n">b</span><span class="o">)))))</span>
+</pre></div>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">(while</span> <span class="pre">true</span> <span class="pre">...)</span></tt> loop. If we run this in the REPL,</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">fib</span><span class="o">)</span>
+<span class="o">&lt;</span><span class="n">generator</span> <span class="n">object</span> <span class="n">fib</span> <span class="n">at</span> <span class="mh">0x101e642d0</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Calling the function only returns an iterator, but does no
+work until we consume it. Trying something like this is not recommend as
+the infinite loop will run until it consumes all available RAM, or
+in this case until I killed it.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">fib</span><span class="o">))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">]</span>    <span class="mi">91474</span> <span class="n">killed</span>     <span class="n">hy</span>
+</pre></div>
+</div>
+<p>To get the first 10 Fibonacci numbers, use <a class="reference internal" href="#take-fn"><em>take</em></a>. Note that
+<a class="reference internal" href="#take-fn"><em>take</em></a> also returns a generator, so I create a list from it.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">10</span> <span class="o">(</span><span class="n">fib</span><span class="o">)))</span>
+<span class="o">[</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">13</span><span class="o">,</span> <span class="mi">21</span><span class="o">,</span> <span class="mi">34</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>To get the Fibonacci number at index 9, (starting from 0):</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">nth</span> <span class="o">(</span><span class="n">fib</span><span class="o">)</span> <span class="mi">9</span><span class="o">)</span>
+<span class="mi">34</span>
+</pre></div>
+</div>
+<div class="section" id="cycle">
+<span id="cycle-fn"></span><h3>cycle<a class="headerlink" href="#cycle" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(cycle</span> <span class="pre">coll)</span></tt></p>
+<p>Return an infinite iterator of the members of coll.</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="nv">=&gt;</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">take </span><span class="mi">7</span> <span class="p">(</span><span class="nb">cycle </span><span class="p">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">])))</span>
+<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">1</span>, <span class="mi">2</span>, <span class="mi">3</span>, <span class="mi">1</span><span class="p">]</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nb">list </span><span class="p">(</span><span class="nb">take </span><span class="mi">2</span> <span class="p">(</span><span class="nb">cycle </span><span class="p">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">])))</span>
+<span class="p">[</span><span class="mi">1</span>, <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="distinct">
+<span id="distinct-fn"></span><h3>distinct<a class="headerlink" href="#distinct" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(distinct</span> <span class="pre">coll)</span></tt></p>
+<p>Returns an iterator containing only the unique members in <tt class="docutils literal"><span class="pre">coll</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">distinct</span> <span class="o">[</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">2</span> <span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">distinct</span> <span class="o">[]))</span>
+<span class="o">[]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">distinct</span> <span class="o">(</span><span class="n">iter</span> <span class="o">[</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">2</span> <span class="o">])))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="drop">
+<span id="drop-fn"></span><h3>drop<a class="headerlink" href="#drop" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(drop</span> <span class="pre">n</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator, skipping the first <tt class="docutils literal"><span class="pre">n</span></tt> members of <tt class="docutils literal"><span class="pre">coll</span></tt></p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span> <span class="mi">2</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span> <span class="mi">4</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span> <span class="mi">0</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span> <span class="mi">6</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="drop-while">
+<span id="drop-while-fn"></span><h3>drop-while<a class="headerlink" href="#drop-while" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(drop-while</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator, skipping members of <tt class="docutils literal"><span class="pre">coll</span></tt> until <tt class="docutils literal"><span class="pre">pred</span></tt>
+is False.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span><span class="o">-</span><span class="k">while</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span><span class="o">-</span><span class="k">while</span> <span class="n">numeric</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="n">None</span> <span class="s">&quot;a&quot;</span><span class="o">])))</span>
+<span class="o">[</span><span class="n">None</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;a&#39;</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">drop</span><span class="o">-</span><span class="k">while</span> <span class="n">pos</span><span class="o">?</span> <span class="o">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="o">]))</span>
+<span class="o">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter">
+<span id="filter-fn"></span><h3>filter<a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(filter</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator for all items in <tt class="docutils literal"><span class="pre">coll</span></tt> that pass the predicate <tt class="docutils literal"><span class="pre">pred</span></tt>.</p>
+<p>See also <a class="reference internal" href="#remove-fn"><em>remove</em></a>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">filter</span> <span class="n">pos</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">5</span> <span class="o">-</span><span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">filter</span> <span class="n">even</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">5</span> <span class="o">-</span><span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flatten">
+<span id="flatten-fn"></span><h3>flatten<a class="headerlink" href="#flatten" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.12.</span></p>
+</div>
+<p>Usage: <tt class="docutils literal"><span class="pre">(flatten</span> <span class="pre">coll)</span></tt></p>
+<p>Return a single list of all the items in <tt class="docutils literal"><span class="pre">coll</span></tt>, by flattening all
+contained lists and/or tuples.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (flatten [1 2 [3 4] 5])
+[1, 2, 3, 4, 5]
+
+=&gt; (flatten [&quot;foo&quot; (, 1 2) [1 [2 3] 4] &quot;bar&quot;])
+[&#39;foo&#39;, 1, 2, 1, 2, 3, 4, &#39;bar&#39;]
+</pre></div>
+</div>
+</div>
+<div class="section" id="iterate">
+<span id="iterate-fn"></span><h3>iterate<a class="headerlink" href="#iterate" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(iterate</span> <span class="pre">fn</span> <span class="pre">x)</span></tt></p>
+<p>Return an iterator of <cite>x</cite>, <cite>fn(x)</cite>, <cite>fn(fn(x))</cite>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">5</span> <span class="o">(</span><span class="n">iterate</span> <span class="n">inc</span> <span class="mi">5</span><span class="o">)))</span>
+<span class="o">[</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">5</span> <span class="o">(</span><span class="n">iterate</span> <span class="o">(</span><span class="n">fn</span> <span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">(*</span> <span class="n">x</span> <span class="n">x</span><span class="o">))</span> <span class="mi">5</span><span class="o">)))</span>
+<span class="o">[</span><span class="mi">5</span><span class="o">,</span> <span class="mi">25</span><span class="o">,</span> <span class="mi">625</span><span class="o">,</span> <span class="mi">390625</span><span class="o">,</span> <span class="mi">152587890625</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remove">
+<span id="remove-fn"></span><h3>remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(remove</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator from <tt class="docutils literal"><span class="pre">coll</span></tt> with elements that pass the
+predicate, <tt class="docutils literal"><span class="pre">pred</span></tt>, removed.</p>
+<p>See also <a class="reference internal" href="#filter-fn"><em>filter</em></a>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="nb">remove</span> <span class="n">odd</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">6</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="nb">remove</span> <span class="n">pos</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="nb">remove</span> <span class="n">neg</span><span class="o">?</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="repeat">
+<span id="repeat-fn"></span><h3>repeat<a class="headerlink" href="#repeat" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(repeat</span> <span class="pre">x)</span></tt></p>
+<p>Return an iterator (infinite) of <tt class="docutils literal"><span class="pre">x</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">6</span> <span class="o">(</span><span class="n">repeat</span> <span class="s">&quot;s&quot;</span><span class="o">)))</span>
+<span class="o">[</span><span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="repeatedly">
+<span id="repeatedly-fn"></span><h3>repeatedly<a class="headerlink" href="#repeatedly" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(repeatedly</span> <span class="pre">fn)</span></tt></p>
+<p>Return an iterator by calling <tt class="docutils literal"><span class="pre">fn</span></tt> repeatedly.</p>
+<div class="highlight-hy"><div class="highlight"><pre>=&gt; (import [random [randint]])
+
+=&gt; (list (take 5 (repeatedly (fn [] (randint 0 10)))))
+[6, 2, 0, 6, 7]
+</pre></div>
+</div>
+</div>
+<div class="section" id="take">
+<span id="take-fn"></span><h3>take<a class="headerlink" href="#take" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(take</span> <span class="pre">n</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator containing the first <tt class="docutils literal"><span class="pre">n</span></tt> members of <tt class="docutils literal"><span class="pre">coll</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">3</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">4</span> <span class="o">(</span><span class="n">repeat</span> <span class="s">&quot;s&quot;</span><span class="o">)))</span>
+<span class="o">[</span><span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">,</span> <span class="n">u</span><span class="sc">&#39;s&#39;</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span> <span class="mi">0</span> <span class="o">(</span><span class="n">repeat</span> <span class="s">&quot;s&quot;</span><span class="o">)))</span>
+<span class="o">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="take-nth">
+<span id="take-nth-fn"></span><h3>take-nth<a class="headerlink" href="#take-nth" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(take-nth</span> <span class="pre">n</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator containing every <tt class="docutils literal"><span class="pre">nth</span></tt> member of <tt class="docutils literal"><span class="pre">coll</span></tt>.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="n">nth</span> <span class="mi">2</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">7</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="n">nth</span> <span class="mi">3</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">7</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="n">nth</span> <span class="mi">4</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="n">nth</span> <span class="mi">10</span> <span class="o">[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="take-while">
+<span id="take-while-fn"></span><h3>take-while<a class="headerlink" href="#take-while" title="Permalink to this headline">¶</a></h3>
+<p>Usage: <tt class="docutils literal"><span class="pre">(take-while</span> <span class="pre">pred</span> <span class="pre">coll)</span></tt></p>
+<p>Return an iterator from <tt class="docutils literal"><span class="pre">coll</span></tt> as long as predicate, <tt class="docutils literal"><span class="pre">pred</span></tt> returns True.</p>
+<div class="highlight-hy"><div class="highlight"><pre><span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="k">while</span> <span class="n">pos</span><span class="o">?</span> <span class="o">[</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="k">while</span> <span class="n">neg</span><span class="o">?</span> <span class="o">[</span> <span class="o">-</span><span class="mi">4</span> <span class="o">-</span><span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[-</span><span class="mi">4</span><span class="o">,</span> <span class="o">-</span><span class="mi">3</span><span class="o">]</span>
+
+<span class="o">=&gt;</span> <span class="o">(</span><span class="n">list</span> <span class="o">(</span><span class="n">take</span><span class="o">-</span><span class="k">while</span> <span class="n">neg</span><span class="o">?</span> <span class="o">[</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="o">-</span><span class="mi">4</span> <span class="mi">5</span><span class="o">]))</span>
+<span class="o">[]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Hy Core</a><ul>
+<li><a class="reference internal" href="#core-functions">Core Functions</a><ul>
+<li><a class="reference internal" href="#coll">coll?</a></li>
+<li><a class="reference internal" href="#cons">cons</a></li>
+<li><a class="reference internal" href="#id1">cons?</a></li>
+<li><a class="reference internal" href="#dec">dec</a></li>
+<li><a class="reference internal" href="#disassemble">disassemble</a></li>
+<li><a class="reference internal" href="#empty">empty?</a></li>
+<li><a class="reference internal" href="#every">every?</a></li>
+<li><a class="reference internal" href="#float">float?</a></li>
+<li><a class="reference internal" href="#even">even?</a></li>
+<li><a class="reference internal" href="#identity-fn">identity</a></li>
+<li><a class="reference internal" href="#inc">inc</a></li>
+<li><a class="reference internal" href="#instance">instance?</a></li>
+<li><a class="reference internal" href="#integer">integer?</a></li>
+<li><a class="reference internal" href="#iterable">iterable?</a></li>
+<li><a class="reference internal" href="#iterator">iterator?</a></li>
+<li><a class="reference internal" href="#list">list*</a></li>
+<li><a class="reference internal" href="#macroexpand">macroexpand</a></li>
+<li><a class="reference internal" href="#macroexpand-1">macroexpand-1</a></li>
+<li><a class="reference internal" href="#neg">neg?</a></li>
+<li><a class="reference internal" href="#nil">nil?</a></li>
+<li><a class="reference internal" href="#none">none?</a></li>
+<li><a class="reference internal" href="#nth">nth</a></li>
+<li><a class="reference internal" href="#numeric">numeric?</a></li>
+<li><a class="reference internal" href="#odd">odd?</a></li>
+<li><a class="reference internal" href="#pos">pos?</a></li>
+<li><a class="reference internal" href="#second">second</a></li>
+<li><a class="reference internal" href="#some">some</a></li>
+<li><a class="reference internal" href="#string">string?</a></li>
+<li><a class="reference internal" href="#zero">zero?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sequence-functions">Sequence Functions</a><ul>
+<li><a class="reference internal" href="#cycle">cycle</a></li>
+<li><a class="reference internal" href="#distinct">distinct</a></li>
+<li><a class="reference internal" href="#drop">drop</a></li>
+<li><a class="reference internal" href="#drop-while">drop-while</a></li>
+<li><a class="reference internal" href="#filter">filter</a></li>
+<li><a class="reference internal" href="#flatten">flatten</a></li>
+<li><a class="reference internal" href="#iterate">iterate</a></li>
+<li><a class="reference internal" href="#remove">remove</a></li>
+<li><a class="reference internal" href="#repeat">repeat</a></li>
+<li><a class="reference internal" href="#repeatedly">repeatedly</a></li>
+<li><a class="reference internal" href="#take">take</a></li>
+<li><a class="reference internal" href="#take-nth">take-nth</a></li>
+<li><a class="reference internal" href="#take-while">take-while</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">Hy (the language)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="readermacros.html"
+                        title="next chapter">Reader Macros</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/language/core.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="readermacros.html" title="Reader Macros"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="Hy (the language)"
+             >previous</a> |</li>
+        <li><a href="../index.html">hy 0.10.0 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Documentation Index</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

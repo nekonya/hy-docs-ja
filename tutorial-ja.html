@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>チュートリアル &mdash; hy 0.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="hy 0.10.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">hy 0.10.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>チュートリアル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Hyチュートリアルにようこそ！</p>
+<p>端的に言ってしまえば，HyとはLispの一方言です．しかし普通のLispとは違って，プログラムの構造をPythonに変換するもの…もう少し正確に言えば，Pythonの抽象構文木に変換するものです．（または，より砕けた言い方をするならば，HyとはPythonに付けるお化粧(Lisp-stick[*]_)である）</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[*]</td><td>たぶん口紅(lip-stick)のダジャレネタなんじゃないかと…</td></tr>
+</tbody>
+</table>
+<p>This is pretty cool because it means Hy is several things:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A lisp that feels very pythonic</li>
+<li>For lispers, a great way to use lisp&#8217;s crazy powers but in the wide
+world of Python&#8217;s libraries (why yes, you now can write a Django
+application in lisp!)</li>
+<li>For pythonistas, a great way to start exploring lisp, from the
+comfort of python!</li>
+<li>For everyone: a pleasant language that has a lot of neat ideas!</li>
+</ul>
+</div></blockquote>
+<div class="section" id="basic-intro-to-lisp-for-pythonistas">
+<h2>Basic intro to lisp for pythonistas<a class="headerlink" href="#basic-intro-to-lisp-for-pythonistas" title="Permalink to this headline">¶</a></h2>
+<p>Okay, maybe you&#8217;ve never used lisp before, but you&#8217;ve used python!</p>
+<p>A &#8220;hello world&#8221; in hy is actually super simple.  Let&#8217;s try it:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">print </span><span class="s">&quot;hello world&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See?  Easy!  As you may have guessed, this is the same as the python
+version of:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>
+</pre></div>
+</div>
+<p>To add up some super simple math, we could do:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which would return 4 and would be the equivalent of:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="mi">1</span> <span class="nb">+ </span><span class="mi">3</span>
+</pre></div>
+</div>
+<p>What you&#8217;ll notice is that the first item in the list is the function
+being called and the rest of the arguments are the arguments being
+passed in.  In fact, in hy (as with most lisps) we can pass in
+multiple arguments to the plus operator:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">55</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which would return 59.</p>
+<p>Maybe you&#8217;ve heard of lisp before but don&#8217;t know much about it.  Lisp
+isn&#8217;t as hard as you might think, and hy inherits from python, so hy
+is a great way to start learning lisp.  The main thing that&#8217;s obvious
+about lisp is that there&#8217;s a lot of parentheses.  This might seem
+confusing at first, but it isn&#8217;t so hard.  Let&#8217;s look at some simple
+math that&#8217;s wrapped in a bunch of parentheses that we could enter into
+the hy interpreter:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">setv</span> <span class="nv">result</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">88</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This would return 38.  But why?  Well, we could look at the equivalent
+expression in python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">88</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p>If you were to try to figure out how the above were to work in python,
+you&#8217;d of course figure out the results by solving each inner
+parenthesis.  That&#8217;s the same basic idea in hy.  Let&#8217;s try this
+exercise first in python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">88</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">8</span>
+<span class="c"># simplified to...</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="mi">92</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">8</span>
+<span class="c"># simplified to...</span>
+<span class="n">result</span> <span class="o">=</span> <span class="mi">46</span> <span class="o">-</span> <span class="mi">8</span>
+<span class="c"># simplified to...</span>
+<span class="n">result</span> <span class="o">=</span> <span class="mi">38</span>
+</pre></div>
+</div>
+<p>Now let&#8217;s try the same thing in hy:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">setv</span> <span class="nv">result</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">88</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">8</span><span class="p">))</span>
+<span class="c1">; simplified to...</span>
+<span class="p">(</span><span class="nf">setv</span> <span class="nv">result</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nb">/ </span><span class="mi">92</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">8</span><span class="p">))</span>
+<span class="c1">; simplified to...</span>
+<span class="p">(</span><span class="nf">setv</span> <span class="nv">result</span> <span class="p">(</span><span class="nb">- </span><span class="mi">46</span> <span class="mi">8</span><span class="p">))</span>
+<span class="c1">; simplified to...</span>
+<span class="p">(</span><span class="nf">setv</span> <span class="nv">result</span> <span class="mi">38</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you probably guessed, this last expression with &#8220;setv&#8221; means to
+assign the variable &#8220;result&#8221; to 38.</p>
+<p>See?  Not too hard!</p>
+<p>This is the basic premise of lisp... lisp stands for &#8220;list
+processing&#8221;... this means that the structure of the program is
+actually lists of lists.  (If you&#8217;re familiar with python lists,
+imagine the entire same structure as above but with square brackets
+instead, any you&#8217;ll be able to see the structure above as both a
+program and a datastructure.)  This is easier to understand with more
+examples, so let&#8217;s write a simple python program and test it and then
+show the equivalent hy program:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">simple_conversation</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&quot;Hello!  I&#39;d like to get to know you.  Tell me about yourself!&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;What is your name? &quot;</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;What is your age? &quot;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&quot;Hello &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot;!  I see you are &quot;</span> <span class="o">+</span> <span class="n">age</span> <span class="o">+</span> <span class="s">&quot; years old.&quot;</span>
+
+<span class="n">simple_conversation</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If we ran this program, it might go like:</p>
+<div class="highlight-python"><div class="highlight"><pre>Hello!  I&#39;d like to get to know you.  Tell me about yourself!
+What is your name? Gary
+What is your age? 38
+Hello Gary!  I see you are 38 years old.
+</pre></div>
+</div>
+<p>Now let&#8217;s look at the equivalent hy program:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">simple-conversation</span> <span class="p">[]</span>
+   <span class="p">(</span><span class="nb">print </span><span class="s">&quot;Hello!  I&#39;d like to get to know you.  Tell me about yourself!&quot;</span><span class="p">)</span>
+   <span class="p">(</span><span class="nf">setv</span> <span class="nb">name </span><span class="p">(</span><span class="nf">raw_input</span> <span class="s">&quot;What is your name? &quot;</span><span class="p">))</span>
+   <span class="p">(</span><span class="nf">setv</span> <span class="nv">age</span> <span class="p">(</span><span class="nf">raw_input</span> <span class="s">&quot;What is your age? &quot;</span><span class="p">))</span>
+   <span class="p">(</span><span class="nb">print </span><span class="p">(</span><span class="nb">+ </span><span class="s">&quot;Hello &quot;</span> <span class="nb">name </span><span class="s">&quot;!  I see you are &quot;</span>
+              <span class="nv">age</span> <span class="s">&quot; years old.&quot;</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">simple-conversation</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you look at the above program, as long as you remember that the
+first element in each list of the program is the function (or
+macro... we&#8217;ll get to those later) being called and that the rest are
+the arguments, it&#8217;s pretty easy to figure out what this all means.
+(As you probably also guessed, defn is the hy method of defining
+methods.)</p>
+<p>Still, lots of people find this confusing at first because there&#8217;s so
+many parentheses, but there are plenty of things that can help make
+this easier: keep indentation nice and use an editor with parenthesis
+matching (this will help you figure out what each parenthesis pairs up
+with) and things will start to feel comfortable.</p>
+<p>There are some advantages to having a code structure that&#8217;s actually a
+very simple datastructure as the core of lisp is based on.  For one
+thing, it means that your programs are easy to parse and that the
+entire actual structure of the program is very clearly exposed to you.
+(There&#8217;s an extra step in hy where the structure you see is converted
+to python&#8217;s own representations... in more &#8220;pure&#8221; lisps such as common
+lisp or emacs lisp, the data structure you see for the code and the
+data structure that is executed is much more literally close.)</p>
+<p>Another implication of this is macros: if a program&#8217;s structure is a
+simple data structure, that means you can write code that can write
+code very easily, meaning that implementing entirely new language
+features can be very fast.  Previous to hy, this wasn&#8217;t very possible
+for python programmers... now you too can make use of macros&#8217;
+incredible power (just be careful to not aim them footward)!</p>
+</div>
+<div class="section" id="hy-is-a-lisp-flavored-python">
+<h2>Hy is a Lisp flavored Python<a class="headerlink" href="#hy-is-a-lisp-flavored-python" title="Permalink to this headline">¶</a></h2>
+<p>Hy converts to Python&#8217;s own abstract syntax tree, so you&#8217;ll soon start
+to find that all the familiar power of python is at your fingertips.</p>
+<p>You have full access to Python&#8217;s data types and standard library in
+Hy.  Let&#8217;s experiment with this in the hy interpreter:</p>
+<div class="highlight-python"><div class="highlight"><pre>=&gt; [1 2 3]
+[1, 2, 3]
+=&gt; {&quot;dog&quot; &quot;bark&quot;
+... &quot;cat&quot; &quot;meow&quot;}
+...
+{&#39;dog&#39;: &#39;bark&#39;, &#39;cat&#39;: &#39;meow&#39;}
+=&gt; (, 1 2 3)
+(1, 2, 3)
+</pre></div>
+</div>
+<p>If you are familiar with other lisps, you may be interested that Hy
+supports the Common Lisp method of quoting:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="nv">=&gt;</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="nv">L</span> <span class="mi">2</span><span class="nv">L</span> <span class="mi">3</span><span class="nv">L</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You also have access to all the builtin types&#8217; nice methods:</p>
+<div class="highlight-python"><div class="highlight"><pre>=&gt; (.strip &quot; fooooo   &quot;)
+&quot;fooooo&quot;
+</pre></div>
+</div>
+<p>What&#8217;s this?  Yes indeed, this is precisely the same as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&quot; fooooo   &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>That&#8217;s right... lisp with dot notation!  If we have this string
+assigned as a variable, we can also do the following:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">setv</span> <span class="nv">this-string</span> <span class="s">&quot; fooooo   &quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">this-string.strip</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What about conditionals?:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">try-some-thing</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;this is if true&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;this is if false&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>As you can tell above, the first argument to if is a truth test, the
+second argument is a body if true, and the third argument (optional!)
+is if false (ie, &#8220;else&#8221;!).</p>
+<p>If you need to do more complex conditionals, you&#8217;ll find that you
+don&#8217;t have elif available in hy.  Instead, you should use something
+called &#8220;cond&#8221;.  In python, you might do something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">somevar</span> <span class="o">=</span> <span class="mi">33</span>
+<span class="k">if</span> <span class="n">somevar</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;That variable is too big!&quot;</span>
+<span class="k">elif</span> <span class="n">somevar</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;That variable is too small!&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;That variable is jussssst right!&quot;</span>
+</pre></div>
+</div>
+<p>In hy, you would do:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">cond</span>
+ <span class="p">[(</span><span class="nb">&gt; </span><span class="nv">somevar</span> <span class="mi">50</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;That variable is too big!&quot;</span><span class="p">)]</span>
+ <span class="p">[(</span><span class="nb">&lt; </span><span class="nv">somevar</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;That variable is too small!&quot;</span><span class="p">)]</span>
+ <span class="p">[</span><span class="nv">true</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;That variable is jussssst right!&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>What you&#8217;ll notice is that cond switches off between a some statement
+that is executed and checked conditionally for true or falseness, and
+then a bit of code to execute if it turns out to be true.  You&#8217;ll also
+notice that the &#8220;else&#8221; is implemented at the end simply by checking
+for &#8220;true&#8221;... that&#8217;s because true will always be true, so if we get
+this far, we&#8217;ll always run that one!</p>
+<p>You might notice above that if you have code like:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="k">if </span><span class="nv">some-condition</span>
+  <span class="p">(</span><span class="nf">body-if-true</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">body-if-false</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>But wait!  What if you want to execute more than one statement in the
+body of one of these?</p>
+<p>You can do the following:</p>
+<div class="highlight-clj"><div class="highlight"><pre>(if (try-some-thing)
+  (do
+    (print &quot;this is if true&quot;)
+    (print &quot;and why not, let&#39;s keep talking about how true it is!))
+  (print &quot;this one&#39;s still simply just false&quot;))
+</pre></div>
+</div>
+<p>You can see that we used &#8220;do&#8221; to wrap multiple statements.  If you&#8217;re
+familiar with other lisps, this is the equivalent of &#8220;progn&#8221;
+elsewhere.</p>
+<p>Comments start with semicolons:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">print </span><span class="s">&quot;this will run&quot;</span><span class="p">)</span>
+<span class="c1">; (print &quot;but this will not&quot;)</span>
+<span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1">; we&#39;ll execute the addition, but not this comment!</span>
+</pre></div>
+</div>
+<p>Looping is not hard but has a kind of special structure.  In python,
+we might do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;&#39;i&#39; is now at &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The equivalent in hy would be:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">i</span> <span class="p">(</span><span class="nb">range </span><span class="mi">10</span><span class="p">)]</span>
+  <span class="p">(</span><span class="nb">print </span><span class="p">(</span><span class="nb">+ </span><span class="s">&quot;&#39;i&#39; is now at &quot;</span> <span class="p">(</span><span class="nb">str </span><span class="nv">i</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>You can also import and make use of various python libraries.  For
+example:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">import </span><span class="nv">os</span><span class="p">)</span>
+
+<span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">os.path.isdir</span> <span class="s">&quot;/tmp/somedir&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">os.mkdir</span> <span class="s">&quot;/tmp/somedir/anotherdir&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">print </span><span class="s">&quot;Hey, that path isn&#39;t there!&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Python&#8217;s context managers (&#8216;with&#8217; statements) are used like this:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">with</span> <span class="p">[[</span><span class="nv">f</span> <span class="p">(</span><span class="nf">open</span> <span class="s">&quot;/tmp/data.in&quot;</span><span class="p">)]]</span>
+  <span class="p">(</span><span class="nb">print </span><span class="p">(</span><span class="nf">.read</span> <span class="nv">f</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>which is equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;/tmp/data.in&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And yes, we do have lisp comprehensions!  In Python you might do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">odds_squared</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="nb">pow</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In hy, you could do these like:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">setv</span> <span class="nv">odds-squared</span>
+  <span class="p">(</span><span class="nf">list-comp</span>
+    <span class="p">(</span><span class="nf">pow</span> <span class="nv">num</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">num</span> <span class="p">(</span><span class="nb">range </span><span class="mi">100</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">%</span> <span class="nv">num</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-clj"><div class="highlight"><pre><span class="c1">; And, an example stolen shamelessly from a Clojure page:</span>
+<span class="c1">; Let&#39;s list all the blocks of a Chessboard:</span>
+
+<span class="p">(</span><span class="nf">list-comp</span>
+  <span class="p">(</span>, <span class="nv">x</span> <span class="nv">y</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">x</span> <span class="p">(</span><span class="nb">range </span><span class="mi">8</span><span class="p">)</span>
+   <span class="nv">y</span> <span class="s">&quot;ABCDEFGH&quot;</span><span class="p">))</span>
+
+<span class="c1">; [(0, &#39;A&#39;), (0, &#39;B&#39;), (0, &#39;C&#39;), (0, &#39;D&#39;), (0, &#39;E&#39;), (0, &#39;F&#39;), (0, &#39;G&#39;), (0, &#39;H&#39;),</span>
+<span class="c1">;  (1, &#39;A&#39;), (1, &#39;B&#39;), (1, &#39;C&#39;), (1, &#39;D&#39;), (1, &#39;E&#39;), (1, &#39;F&#39;), (1, &#39;G&#39;), (1, &#39;H&#39;),</span>
+<span class="c1">;  (2, &#39;A&#39;), (2, &#39;B&#39;), (2, &#39;C&#39;), (2, &#39;D&#39;), (2, &#39;E&#39;), (2, &#39;F&#39;), (2, &#39;G&#39;), (2, &#39;H&#39;),</span>
+<span class="c1">;  (3, &#39;A&#39;), (3, &#39;B&#39;), (3, &#39;C&#39;), (3, &#39;D&#39;), (3, &#39;E&#39;), (3, &#39;F&#39;), (3, &#39;G&#39;), (3, &#39;H&#39;),</span>
+<span class="c1">;  (4, &#39;A&#39;), (4, &#39;B&#39;), (4, &#39;C&#39;), (4, &#39;D&#39;), (4, &#39;E&#39;), (4, &#39;F&#39;), (4, &#39;G&#39;), (4, &#39;H&#39;),</span>
+<span class="c1">;  (5, &#39;A&#39;), (5, &#39;B&#39;), (5, &#39;C&#39;), (5, &#39;D&#39;), (5, &#39;E&#39;), (5, &#39;F&#39;), (5, &#39;G&#39;), (5, &#39;H&#39;),</span>
+<span class="c1">;  (6, &#39;A&#39;), (6, &#39;B&#39;), (6, &#39;C&#39;), (6, &#39;D&#39;), (6, &#39;E&#39;), (6, &#39;F&#39;), (6, &#39;G&#39;), (6, &#39;H&#39;),</span>
+<span class="c1">;  (7, &#39;A&#39;), (7, &#39;B&#39;), (7, &#39;C&#39;), (7, &#39;D&#39;), (7, &#39;E&#39;), (7, &#39;F&#39;), (7, &#39;G&#39;), (7, &#39;H&#39;)]</span>
+</pre></div>
+</div>
+<p>Python has support for various fancy argument and keyword arguments.
+In python we might see:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">optional_arg</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">keyword1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">keyword2</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="gp">... </span>  <span class="k">return</span> <span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">keyword1</span><span class="p">,</span> <span class="n">keyword2</span><span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optional_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">[1, 2, None, 42]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optional_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">[1, 2, 3, 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">optional_arg</span><span class="p">(</span><span class="n">keyword1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pos2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pos1</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">keyword2</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">[3, 2, 1, 4]</span>
+</pre></div>
+</div>
+<p>The same thing in Hy:</p>
+<div class="highlight-python"><div class="highlight"><pre>=&gt; (defn optional_arg [pos1 pos2 &amp;optional keyword1 [keyword2 42]]
+...  [pos1 pos2 keyword1 keyword2])
+=&gt; (optional_arg 1 2)
+[1 2 None 42]
+=&gt; (optional_arg 1 2 3 4)
+[1 2 3 4]
+=&gt; (kwapply (optional_arg)
+...         {&quot;keyword1&quot; 1
+...          &quot;pos2&quot; 2
+...          &quot;pos1&quot; 3
+...          &quot;keyword2&quot; 4})
+...
+[3, 2, 1, 4]
+</pre></div>
+</div>
+<p>See how we use kwapply to handle the fancy passing? :)</p>
+<p>There&#8217;s also a dictionary-style keyword arguments construction that
+looks like:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">another_style</span> <span class="p">[</span><span class="o">&amp;</span><span class="nb">key </span><span class="p">{</span><span class="s">&quot;key1&quot;</span> <span class="s">&quot;val1&quot;</span> <span class="s">&quot;key2&quot;</span> <span class="s">&quot;val2&quot;</span><span class="p">}]</span>
+  <span class="p">[</span><span class="nv">key1</span> <span class="nv">key2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The difference here is that since it&#8217;s a dictionary, you can&#8217;t rely on
+any specific ordering to the arguments.</p>
+<p>Hy also supports <tt class="docutils literal"><span class="pre">*args</span></tt> and <tt class="docutils literal"><span class="pre">**kwargs</span></tt>.  In Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_func</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  <span class="kn">import</span> <span class="nn">pprint</span>
+  <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">((</span><span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The Hy equivalent:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">some_func</span> <span class="p">[</span><span class="nv">foo</span> <span class="nv">bar</span> <span class="o">&amp;</span><span class="nb">rest </span><span class="nv">args</span> <span class="o">&amp;</span><span class="nv">kwargs</span> <span class="nv">kwargs</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">import </span><span class="nv">pprint</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">pprint.pprint</span> <span class="p">(</span>, <span class="nv">foo</span> <span class="nv">bar</span> <span class="nv">args</span> <span class="nv">kwargs</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Finally, of course we need classes!  In python we might have a class
+like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FooBar</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yet Another Example Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return our copy of x</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>In Hy:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">defclass</span> <span class="nv">FooBar</span> <span class="p">[</span><span class="nv">object</span><span class="p">]</span>
+  <span class="s">&quot;Yet Another Example Class&quot;</span>
+  <span class="p">[[</span><span class="nv">--init--</span>
+    <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">self</span> <span class="nv">x</span><span class="p">]</span>
+      <span class="p">(</span><span class="nf">setv</span> <span class="nv">self.x</span> <span class="nv">x</span><span class="p">)</span>
+      <span class="c1">; Currently needed for --init-- because __init__ needs None</span>
+      <span class="c1">; Hopefully this will go away :)</span>
+      <span class="nv">None</span><span class="p">)]</span>
+
+   <span class="p">[</span><span class="nv">get-x</span>
+    <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">self</span><span class="p">]</span>
+      <span class="s">&quot;Return our copy of x&quot;</span>
+      <span class="nv">self.x</span><span class="p">)]])</span>
+</pre></div>
+</div>
+<p>You can also do class-level attributes.  In Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Customer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In Hy:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">defclass</span> <span class="nv">Customer</span> <span class="p">[</span><span class="nv">models.Model</span><span class="p">]</span>
+  <span class="p">[[</span><span class="nb">name </span><span class="p">(</span><span class="nf">kwapply</span> <span class="p">(</span><span class="nf">models.CharField</span><span class="p">)</span> <span class="p">{</span><span class="s">&quot;max_length&quot;</span> <span class="mi">255</span><span class="p">})]</span>
+   <span class="p">[</span><span class="nv">address</span> <span class="p">(</span><span class="nf">models.TextField</span><span class="p">)]</span>
+   <span class="p">[</span><span class="nv">notes</span> <span class="p">(</span><span class="nf">models.TextField</span><span class="p">)]])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="protips">
+<h2>Protips!<a class="headerlink" href="#protips" title="Permalink to this headline">¶</a></h2>
+<p>Hy also features something known as the &#8220;threading macro&#8221;, a really neat
+feature of Clojure&#8217;s. The &#8220;threading macro&#8221; (written as &#8220;-&gt;&#8221;), is used
+to avoid deep nesting of expressions.</p>
+<p>The threading macro inserts each expression into the next expression&#8217;s first
+argument place.</p>
+<p>Let&#8217;s take the classic:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="k">loop </span><span class="p">(</span><span class="nb">print </span><span class="p">(</span><span class="nb">eval </span><span class="p">(</span><span class="nf">read</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>Rather then write it like that, we can write it as follows:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">read</span><span class="p">)</span> <span class="p">(</span><span class="nf">eval</span><span class="p">)</span> <span class="p">(</span><span class="nf">print</span><span class="p">)</span> <span class="p">(</span><span class="nf">loop</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now, using <a class="reference external" href="http://amoffat.github.com/sh/">python-sh</a>, we can show
+how the threading macro (because of python-sh&#8217;s setup) can be used like
+a pipe:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="nv">=&gt;</span> <span class="p">(</span><span class="nb">import </span><span class="p">[</span><span class="nv">sh</span> <span class="p">[</span><span class="nv">cat</span> <span class="nv">grep</span> <span class="nv">wc</span><span class="p">]])</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">cat</span> <span class="s">&quot;/usr/share/dict/words&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">grep</span> <span class="s">&quot;-E&quot;</span> <span class="s">&quot;^hy&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">wc</span> <span class="s">&quot;-l&quot;</span><span class="p">))</span>
+<span class="mi">210</span>
+</pre></div>
+</div>
+<p>Which, of course, expands out to:</p>
+<div class="highlight-clj"><div class="highlight"><pre><span class="p">(</span><span class="nf">wc</span> <span class="p">(</span><span class="nf">grep</span> <span class="p">(</span><span class="nf">cat</span> <span class="s">&quot;/usr/share/dict/words&quot;</span><span class="p">)</span> <span class="s">&quot;-E&quot;</span> <span class="s">&quot;^hy&quot;</span><span class="p">)</span> <span class="s">&quot;-l&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Much more readable, no? Use the threading macro!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">チュートリアル</a><ul>
+<li><a class="reference internal" href="#basic-intro-to-lisp-for-pythonistas">Basic intro to lisp for pythonistas</a></li>
+<li><a class="reference internal" href="#hy-is-a-lisp-flavored-python">Hy is a Lisp flavored Python</a></li>
+<li><a class="reference internal" href="#protips">Protips!</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/tutorial-ja.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">hy 0.10.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013-2014, Paul Tagliamonte.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
