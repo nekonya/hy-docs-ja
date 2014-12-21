@@ -10,7 +10,7 @@ Internal Hy Documentation
 Hy Models
 =========
 
-Introduction to Hy models
+Introduction to Hy Models
 -------------------------
 
 Hy models are a very thin layer on top of regular Python objects,
@@ -33,7 +33,7 @@ macros, be that in the compiler or in pure hy macros.
 ``HyObject`` is not intended to be used directly to instantiate Hy
 models, but only as a mixin for other classes.
 
-Compound models
+Compound Models
 ---------------
 
 Parenthesized and bracketed lists are parsed as compound models by the
@@ -77,7 +77,7 @@ The decision of using a list instead of a dict as the base class for
 benefit of allowing compound expressions as dict keys (as, for instance,
 the :ref:`HyExpression` Python class isn't hashable).
 
-Atomic models
+Atomic Models
 -------------
 
 In the input stream, double-quoted strings, respecting the Python
@@ -94,7 +94,6 @@ the following order:
  - :ref:`HyFloat <hy_numeric_models>`
  - :ref:`HyComplex <hy_numeric_models>` (if the atom isn't a bare ``j``)
  - :ref:`HyKeyword` (if the atom starts with ``:``)
- - :ref:`HyLambdaListKeyword` (if the atom starts with ``&``)
  - :ref:`HySymbol`
 
 .. _hystring:
@@ -116,7 +115,7 @@ strings.
 
 .. _hy_numeric_models:
 
-Numeric models
+Numeric Models
 ~~~~~~~~~~~~~~
 
 ``hy.models.integer.HyInteger`` represents integer literals (using the
@@ -161,16 +160,6 @@ To distinguish :ref:`HyKeywords <HyKeyword>` from :ref:`HySymbols
 <HySymbol>`, without the possibility of (involuntary) clashes, the
 private-use unicode character ``"\uFDD0"`` is prepended to the keyword
 literal before storage.
-
-.. _hylambdalistkeyword:
-
-HyLambdaListKeyword
-~~~~~~~~~~~~~~~~~~~
-
-``hy.models.lambdalist.HyLambdaListKeyword`` represents lambda-list
-keywords, that is keywords used by the language definition inside
-function signatures. Lambda-list keywords are symbols starting with a
-``&``. The class inherits :ref:`HyString`
 
 .. _hycons:
 
@@ -228,7 +217,7 @@ from source to runtime.
 
 .. _lexing:
 
-Steps 1 and 2: Tokenizing and parsing
+Steps 1 and 2: Tokenizing and Parsing
 -------------------------------------
 
 The first stage of compiling Hy is to lex the source into tokens that we can
@@ -249,7 +238,7 @@ on (directly), and it's what the compiler uses when it compiles Hy down.
 
 .. _compiling:
 
-Step 3: Hy compilation to Python AST
+Step 3: Hy Compilation to Python AST
 ------------------------------------
 
 This is where most of the magic in Hy happens. This is where we take Hy AST
@@ -273,7 +262,7 @@ All methods that preform a compilation are marked with the ``@builds()``
 decorator. You can either pass the class of the Hy model that it compiles,
 or you can use a string for expressions. I'll clear this up in a second.
 
-First stage type-dispatch
+First Stage Type-Dispatch
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's start in the ``compile`` method. The first thing we do is check the
@@ -287,14 +276,14 @@ Hy AST to Python AST. The ``compile_string`` method takes the ``HyString``, and
 returns an ``ast.Str()`` that's populated with the correct line-numbers and
 content.
 
-Macro-expand
+Macro-Expand
 ~~~~~~~~~~~~
 
 If we get a ``HyExpression``, we'll attempt to see if this is a known
 Macro, and push to have it expanded by invoking ``hy.macros.macroexpand``, then
 push the result back into ``HyASTCompiler.compile``.
 
-Second stage expression-dispatch
+Second Stage Expression-Dispatch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The only special case is the ``HyExpression``, since we need to create different
@@ -311,7 +300,7 @@ properly handle that case as well (most likely by raising an ``Exception``).
 If the String isn't known to Hy, it will default to create an ``ast.Call``,
 which will try to do a runtime call (in Python, something like ``foo()``).
 
-Issues hit with Python AST
+Issues Hit with Python AST
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Python AST is great; it's what's enabled us to write such a powerful project
@@ -362,7 +351,7 @@ into::
 By forcing things into an ``ast.expr`` if we can, but the general idea holds.
 
 
-Step 4: Python bytecode output and runtime
+Step 4: Python Bytecode Output and Runtime
 ------------------------------------------
 
 After we have a Python AST tree that's complete, we can try and compile it to
@@ -376,8 +365,8 @@ Hy Macros
 
 .. _using-gensym:
 
-Using gensym for safer macros
-------------------------------
+Using gensym for Safer Macros
+-----------------------------
 
 When writing macros, one must be careful to avoid capturing external variables
 or using variable names that might conflict with user code.
@@ -387,7 +376,7 @@ for a more complete description.) ``nif`` is an example, something like a numeri
 where based on the expression, one of the 3 forms is called depending on if the
 expression is positive, zero or negative.
 
-A first pass might be someting like:
+A first pass might be something like:
 
 .. code-block:: hy
 
@@ -458,13 +447,13 @@ Our final version of ``nif``, built with ``defmacro/g!`` becomes:
 
 
 
-Checking macro arguments and raising exceptions
+Checking Macro Arguments and Raising Exceptions
 -----------------------------------------------
 
 
 
-Hy Compiler Builtins
-====================
+Hy Compiler Built-Ins
+=====================
 
 .. todo::
     Write this.

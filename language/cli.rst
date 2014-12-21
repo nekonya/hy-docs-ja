@@ -7,7 +7,7 @@ Command Line Interface
 hy
 --
 
-Command line options
+Command Line Options
 ^^^^^^^^^^^^^^^^^^^^
 
 .. cmdoption:: -c <command>
@@ -22,6 +22,16 @@ Command line options
 .. cmdoption:: -i <command>
 
    Execute the Hy code in *command*, then stay in REPL.
+
+.. cmdoption:: -m <module>
+
+   Execute the Hy code in *module*, including ``defmain`` if defined.
+
+   The :option:`-m` flag terminates the options list so that
+   all arguments after the *module* name are passed to the module in
+   ``sys.argv``.
+
+   .. versionadded:: 0.10.2
 
 .. cmdoption:: --spy
 
@@ -53,7 +63,7 @@ Command line options
 hyc
 ---
 
-Command line options
+Command Line Options
 ^^^^^^^^^^^^^^^^^^^^
 
 .. cmdoption:: file[, fileN]
@@ -84,7 +94,7 @@ hy2py
 
 .. versionadded:: 0.10.1
 
-Command line options
+Command Line Options
 ^^^^^^^^^^^^^^^^^^^^
 
 .. cmdoption:: -s
